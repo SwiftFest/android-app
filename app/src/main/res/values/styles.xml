@@ -17,7 +17,8 @@
     <style name="AppTheme.Splash" parent="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/swiftfest_bg</item>
+        <item name="android:windowBackground">#fff</item>
+        <!--<item name="android:windowBackground">@drawable/swiftfest_bg</item>-->
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
