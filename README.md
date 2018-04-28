@@ -1,8 +1,7 @@
 <p align="center">
 <img src="./img/swiftfest.png" width="300px"/>
-Swiftfest Boston
----
 </p>
+<h1>Swiftfest Boston</h1>
 
 
 Android conference app for the Swiftfest conference to be hosted in Boston June 18-19 2018.
