@@ -1,5 +1,6 @@
-
-<img src="./img/swiftfest.png" style="width: 200px;"/>
+<p align="center">
+<img src="./img/swiftfest.png" width="300px"/>
+</p>
 
 Swiftfest Boston
 ---
