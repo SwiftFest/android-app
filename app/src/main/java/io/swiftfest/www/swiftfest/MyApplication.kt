@@ -8,9 +8,14 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         AndroidThreeTen.init(this)
 
         NotificationUtils(this).scheduleMySessionNotifications()
+    }
+
+    companion object {
+        val SPEAKER_URL = "http://swiftfest.io/speakers.json"
+        val SCHEDULE_URL = "http://swiftfest.io/schedule.json"
+        val SESSION_URL = "http://swiftfest.io/sessions.json"
     }
 }

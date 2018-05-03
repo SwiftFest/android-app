@@ -20,11 +20,6 @@ class AboutFragment : Fragment() {
         fetchAboutData()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-    }
-
 //    val dataListener: ValueEventListener = object : ValueEventListener {
 //        override fun onDataChange(dataSnapshot: DataSnapshot) {
 //            tv_about_description.text = dataSnapshot.getValue(String::class.java)?.getHtmlFormattedSpanned()

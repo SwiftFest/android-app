@@ -119,7 +119,24 @@ class AgendaDayFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 //    }
 
     private fun fetchScheduleData() {
-        // TODO: fetch schedule.
+        // TODO: fetch schedule data.
+
+//        launch(CommonPool) {
+//            try {
+//                Fuse.jsonCache.get(URL(MyApplication.SPEAKER_URL)) { result ->
+//                    result.success { json ->
+//                        val speakers = json.toString().parseJson(object : TypeToken<List<ConferenceDatabase.Speaker>>() {})
+//                        launch(UI) {
+//                            setupHeaderAdapter(speakers!!)
+//                        }
+//                        //do something with json object (result is Result<JsonObject, Exception>)
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace();
+//                Toast.makeText(activity, "Error retrieving speakers", Toast.LENGTH_SHORT).show()
+//            }
+//        }
     }
 
     private fun setupHeaderAdapter(rows: List<ScheduleRow>) {
@@ -146,11 +163,15 @@ class AgendaDayFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         agendaRecyler.addItemDecoration(FlexibleItemDecoration(agendaRecyler.context).withDefaultDivider())
         headerAdapter!!.expandItemsAtStartUp().setDisplayHeadersAtStartUp(true)
 
-        EmptyViewHelper(headerAdapter, emptyStateView, null,null)
+        EmptyViewHelper(headerAdapter, emptyStateView, null, null)
     }
 
     override fun onItemClick(view: View, position: Int): Boolean {
-        val adapterItem = try { headerAdapter?.getItem(position) } catch (e: Exception) { null }
+        val adapterItem = try {
+            headerAdapter?.getItem(position)
+        } catch (e: Exception) {
+            null
+        }
         if (adapterItem is ScheduleAdapterItem) {
             val itemData = adapterItem.itemData
             if (itemData.primarySpeakerName.isNullorEmpty()) {

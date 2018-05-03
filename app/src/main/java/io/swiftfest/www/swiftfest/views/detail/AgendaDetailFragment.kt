@@ -15,7 +15,7 @@ import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
 import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.R.string
-import io.swiftfest.www.swiftfest.data.ConferenceDatabase.EventSpeaker
+import io.swiftfest.www.swiftfest.data.ConferenceDatabase.Speaker
 import io.swiftfest.www.swiftfest.data.Schedule
 import io.swiftfest.www.swiftfest.data.Schedule.ScheduleDetail
 import io.swiftfest.www.swiftfest.data.Schedule.ScheduleRow
@@ -40,7 +40,7 @@ class AgendaDetailFragment : Fragment() {
 
     private var scheduleDetail: ScheduleDetail? = null
     private lateinit var scheduleRowItem: ScheduleRow
-    private val eventSpeakers = HashMap<String, EventSpeaker>()
+    private val eventSpeakers = HashMap<String, Speaker>()
 
     private val userAgendaRepo: UserAgendaRepo
         get() = UserAgendaRepo.getInstance(fab_agenda_detail_bookmark.context)
@@ -187,7 +187,7 @@ class AgendaDetailFragment : Fragment() {
                     val eventSpeaker = eventSpeakers[speakerName]
                     val arguments = Bundle()
 
-                    arguments.putString(EventSpeaker.SPEAKER_ITEM_ROW, gson.toJson(eventSpeaker, EventSpeaker::class.java))
+                    arguments.putString(Speaker.SPEAKER_ITEM_ROW, gson.toJson(eventSpeaker, Speaker::class.java))
 
                     val speakerDetailFragment = SpeakerDetailFragment()
                     speakerDetailFragment.arguments = arguments

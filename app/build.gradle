@@ -47,10 +47,11 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'eu.davidea:flexible-adapter:5.0.1'
     implementation 'eu.davidea:flexible-adapter-ui:1.0.0-b3'
+    //noinspection GradleDependency
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
-    implementation 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
-    implementation 'com.tomatobean:jsonparser:1.0.7'
+//    implementation 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
+    implementation 'com.github.kittinunf.fuel:fuel-android:1.12.1'
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

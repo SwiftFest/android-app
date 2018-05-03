@@ -1,0 +1,196 @@
+[
+  {
+    "date": "2018-06-18",
+    "dateReadable": "Monday, June 18",
+    "tracks": [
+      {
+        "title": "Track 1",
+        "color": "#fbac3f"
+      },
+      {
+        "title": "Track 2",
+        "color": "#03a9f4"
+      },
+      {
+        "title": "Workshops",
+        "color": "#90be4e"
+      }
+    ],
+    "timeslots": [
+      {
+        "startTime": "10:00",
+        "endTime": "11:00",
+        "sessionIds": [
+          1
+        ]
+      },
+      {
+        "startTime": "11:00",
+        "endTime": "12:00",
+        "sessionIds": [
+          4,
+          18,
+          666
+        ]
+      },
+      {
+        "startTime": "12:00",
+        "endTime": "1:00",
+        "sessionIds": [
+          503
+        ]
+      },
+      {
+        "startTime": "1:00",
+        "endTime": "2:00",
+        "sessionIds": [
+          "019",
+          6,
+          666
+        ]
+      },
+      {
+        "startTime": "2:00",
+        "endTime": "3:00",
+        "sessionIds": [
+          "009",
+          "008",
+          3
+        ]
+      },
+      {
+        "startTime": "3:00",
+        "endTime": "4:00",
+        "sessionIds": [
+          16,
+          7,
+          666
+        ]
+      },
+      {
+        "startTime": "4:00",
+        "endTime": "5:00",
+        "sessionIds": [
+          999,
+          999,
+          999
+        ]
+      },
+      {
+        "startTime": "5:00",
+        "endTime": "6:00",
+        "sessionIds": [
+          5,
+          999,
+          666
+        ]
+      },
+      {
+        "startTime": "6:00",
+        "endTime": "7:00",
+        "sessionIds": [
+          999,
+          999,
+          666
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2018-06-19",
+    "dateReadable": "Tuesday, June 19",
+    "tracks": [
+      {
+        "title": "Track 1",
+        "color": "#fbac3f"
+      },
+      {
+        "title": "Track 2",
+        "color": "#03a9f4"
+      },
+      {
+        "title": "Workshops",
+        "color": "#90be4e"
+      }
+    ],
+    "timeslots": [
+      {
+        "startTime": "9:00",
+        "endTime": "10:00",
+        "sessionIds": [
+          999,
+          999,
+          666
+        ]
+      },
+      {
+        "startTime": "10:00",
+        "endTime": "11:00",
+        "sessionIds": [
+          13,
+          12,
+          666
+        ]
+      },
+      {
+        "startTime": "11:00",
+        "endTime": "12:00",
+        "sessionIds": [
+          10,
+          15,
+          666
+        ]
+      },
+      {
+        "startTime": "12:00",
+        "endTime": "1:00",
+        "sessionIds": [
+          503
+        ]
+      },
+      {
+        "startTime": "1:00",
+        "endTime": "2:00",
+        "sessionIds": [
+          9,
+          11,
+          17
+        ]
+      },
+      {
+        "startTime": "2:00",
+        "endTime": "3:00",
+        "sessionIds": [
+          999,
+          14,
+          666
+        ]
+      },
+      {
+        "startTime": "3:00",
+        "endTime": "4:00",
+        "sessionIds": [
+          999,
+          8,
+          999
+        ]
+      },
+      {
+        "startTime": "4:00",
+        "endTime": "5:00",
+        "sessionIds": [
+          999,
+          999,
+          666
+        ]
+      },
+      {
+        "startTime": "5:00",
+        "endTime": "6:00",
+        "sessionIds": [
+          999
+        ]
+      }
+    ]
+  }
+]

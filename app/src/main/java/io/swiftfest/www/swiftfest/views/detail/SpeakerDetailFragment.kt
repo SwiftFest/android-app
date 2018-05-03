@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.ConferenceDatabase.EventSpeaker
+import io.swiftfest.www.swiftfest.data.ConferenceDatabase.Speaker
 import io.swiftfest.www.swiftfest.utils.ServiceLocator.Companion.gson
 import io.swiftfest.www.swiftfest.utils.getHtmlFormattedSpanned
 import io.swiftfest.www.swiftfest.utils.loadUriInCustomTab
@@ -33,7 +33,7 @@ class SpeakerDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val itemData = gson.fromJson(arguments!!.getString(EventSpeaker.SPEAKER_ITEM_ROW), EventSpeaker::class.java)
+        val itemData = gson.fromJson(arguments!!.getString(Speaker.SPEAKER_ITEM_ROW), Speaker::class.java)
         populateView(itemData)
 
         if (activity is MainActivity) {
@@ -42,10 +42,12 @@ class SpeakerDetailFragment : Fragment() {
         }
     }
 
-    private fun populateView(itemData: EventSpeaker) {
+    private fun populateView(itemData: Speaker) {
         tv_speaker_detail_name.text = itemData.name
         tv_speaker_detail_designation.text = String.format("%s \n@ %s", itemData.title, itemData.company)
-        tv_speaker_detail_description.text = itemData.bio.getHtmlFormattedSpanned()
+        itemData.bio?.let {
+            tv_speaker_detail_description.text = it.getHtmlFormattedSpanned()
+        }
 
         tv_speaker_detail_description.movementMethod = LinkMovementMethod.getInstance()
 

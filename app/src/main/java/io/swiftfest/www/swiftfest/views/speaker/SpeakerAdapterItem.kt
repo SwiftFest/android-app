@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.ConferenceDatabase.EventSpeaker
+import io.swiftfest.www.swiftfest.data.ConferenceDatabase.Speaker
 import io.swiftfest.www.swiftfest.utils.getHtmlFormattedSpanned
 import io.swiftfest.www.swiftfest.views.transform.CircleTransform
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -17,14 +17,16 @@ import eu.davidea.viewholders.FlexibleViewHolder
 /**
  * Used for displaying speaker list items on the all speakers "Speakers" page.
  */
-class SpeakerAdapterItem internal constructor(val itemData: EventSpeaker) :
+class SpeakerAdapterItem internal constructor(val itemData: Speaker) :
         AbstractFlexibleItem<SpeakerAdapterItem.ViewHolder>() {
 
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
                                 holder: ViewHolder, position: Int, payloads: MutableList<Any>?) {
 
         holder.name.text = itemData.name
-        holder.bio.text = itemData.bio.getHtmlFormattedSpanned()
+        itemData.bio?.let {
+            holder.bio.text = it.getHtmlFormattedSpanned()
+        }
 
         val context = holder.name.context
 

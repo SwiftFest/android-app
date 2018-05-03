@@ -8,8 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.gson.Gson
 import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.ConferenceDatabase.EventSpeaker
+import io.swiftfest.www.swiftfest.data.ConferenceDatabase.Speaker
 import io.swiftfest.www.swiftfest.utils.ServiceLocator.Companion.gson
 import io.swiftfest.www.swiftfest.views.detail.SpeakerDetailFragment
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -18,8 +19,7 @@ import kotlinx.android.synthetic.main.speaker_fragment.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import tomatobean.jsonparser.TypeToken
-import tomatobean.jsonparser.parseJson
+import com.google.gson.reflect.TypeToken
 
 
 class SpeakerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
@@ -37,7 +37,6 @@ class SpeakerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         fetchSpeakerData()
     }
 
-
     private fun fetchSpeakerData() {
         launch(CommonPool) {
             try {
@@ -45,13 +44,16 @@ class SpeakerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
                 val b = ByteArray(in_s.available())
                 in_s.read(b)
                 val speakerText = String(b)
-                val speakers = speakerText.parseJson(object: TypeToken<List<EventSpeaker>>(){})
+                val speakerListType = object : TypeToken<List<Speaker>>() {}.type
+                val speakers = Gson().fromJson<List<Speaker>>(speakerText, speakerListType)
                 launch(UI) {
                     setupSpeakerAdapter(speakers!!)
                 }
             } catch (e: Exception) {
                 e.printStackTrace();
-                Toast.makeText(activity, "Error retrieving speakers", Toast.LENGTH_SHORT).show()
+                launch(UI) {
+                    Toast.makeText(activity, "Error retrieving speakers", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -64,7 +66,7 @@ class SpeakerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 
             val arguments = Bundle()
 
-            arguments.putString(EventSpeaker.SPEAKER_ITEM_ROW, gson.toJson(itemData, EventSpeaker::class.java))
+            arguments.putString(Speaker.SPEAKER_ITEM_ROW, gson.toJson(itemData, Speaker::class.java))
 
             val speakerDetailFragment = SpeakerDetailFragment()
             speakerDetailFragment.arguments = arguments
@@ -79,7 +81,7 @@ class SpeakerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         return true
     }
 
-    private fun setupSpeakerAdapter(rows: List<EventSpeaker>) {
+    private fun setupSpeakerAdapter(rows: List<Speaker>) {
         val items = rows.map { SpeakerAdapterItem(it) }
         speaker_recycler.layoutManager = LinearLayoutManager(speaker_recycler.context)
         speakerAdapter = FlexibleAdapter(items)
