@@ -23,6 +23,9 @@ class DataProvider private constructor() {
         return String(b)
     }
 
+    /*
+     * TODO: potentially replace with http get calls (and cache the result) rather than using local files.
+     */
     fun loadData(context: Context) {
         try {
             val speakerListType = object : TypeToken<List<Speaker>>() {}.type
