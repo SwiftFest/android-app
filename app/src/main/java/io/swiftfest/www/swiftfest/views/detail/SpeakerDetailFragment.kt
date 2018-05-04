@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.ConferenceDatabase.Speaker
+import io.swiftfest.www.swiftfest.data.model.Speaker
 import io.swiftfest.www.swiftfest.utils.ServiceLocator.Companion.gson
 import io.swiftfest.www.swiftfest.utils.getHtmlFormattedSpanned
 import io.swiftfest.www.swiftfest.utils.loadUriInCustomTab

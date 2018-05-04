@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.ConferenceDatabase.FaqEvent.Answer
+import io.swiftfest.www.swiftfest.data.model.FaqItem.Answer
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible

@@ -9,13 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.Schedule
 import io.swiftfest.www.swiftfest.data.UserAgendaRepo
 import io.swiftfest.www.swiftfest.views.transform.CircleTransform
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import io.swiftfest.www.swiftfest.data.model.ScheduleRow
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,7 +23,7 @@ import java.util.*
 /**
  * Used for displaying the schedule with sticky headers with optional day filtering
  */
-class ScheduleAdapterItem internal constructor(val itemData: Schedule.ScheduleRow,
+class ScheduleAdapterItem internal constructor(val itemData: ScheduleRow,
                                                header: ScheduleAdapterItemHeader) :
         AbstractSectionableItem<ScheduleAdapterItem.ViewHolder, ScheduleAdapterItemHeader>(header) {
 
@@ -35,8 +35,16 @@ class ScheduleAdapterItem internal constructor(val itemData: Schedule.ScheduleRo
         get() = itemData.talkTitle
 
     init {
-        val dateTimeString = itemData.date + " " + itemData.startTime
-        val format = SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.US)
+        val extension: String
+        val startTimeInt = itemData.startTime.split(":").get(0).toInt()
+        if (startTimeInt > 6) {
+            extension = "am"
+        } else {
+            extension = "pm"
+        }
+        val dateTimeString = "${itemData.date} ${itemData.startTime} ${extension}"
+//        val format = SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.US)
+        val format = SimpleDateFormat("yyyy-MM-dd h:mm a", Locale.US)
         try {
             startTime = format.parse(dateTimeString)
         } catch (e: ParseException) {

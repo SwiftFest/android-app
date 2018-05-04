@@ -12,7 +12,7 @@ import android.text.TextUtils
 import android.view.Gravity
 import android.view.MenuItem
 import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.Schedule.ScheduleRow
+import io.swiftfest.www.swiftfest.data.model.ScheduleRow
 import io.swiftfest.www.swiftfest.utils.ServiceLocator
 import io.swiftfest.www.swiftfest.views.agenda.AgendaFragment
 import io.swiftfest.www.swiftfest.views.detail.AgendaDetailFragment

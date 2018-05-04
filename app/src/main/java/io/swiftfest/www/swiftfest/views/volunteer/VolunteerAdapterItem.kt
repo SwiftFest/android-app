@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.ConferenceDatabase.VolunteerEvent
+import io.swiftfest.www.swiftfest.data.model.Volunteer
 import io.swiftfest.www.swiftfest.views.transform.CircleTransform
 import io.swiftfest.www.swiftfest.views.volunteer.VolunteerAdapterItem.ViewHolder
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -17,7 +17,7 @@ import eu.davidea.viewholders.FlexibleViewHolder
 /**
  * Used for displaying volunteer list items on the all volunteers "volunteers" page.
  */
-class VolunteerAdapterItem internal constructor(val itemData: VolunteerEvent) :
+class VolunteerAdapterItem internal constructor(val itemData: Volunteer) :
         AbstractFlexibleItem<ViewHolder>() {
 
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,

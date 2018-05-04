@@ -43,4 +43,5 @@
     <string name="close">Close</string>
     <string name="swiftfest_twitter_handle">theswiftfest</string>
     <string name="no_bookmarked_items">No talks added to My Schedule\nfor this day</string>
+    <string name="no_company_provided">No Company Provided</string>
 </resources>

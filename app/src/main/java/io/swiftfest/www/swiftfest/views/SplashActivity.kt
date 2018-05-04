@@ -10,20 +10,34 @@ import io.swiftfest.www.swiftfest.R
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.AlphaAnimation
+import io.swiftfest.www.swiftfest.data.DataProvider
 import kotlinx.android.synthetic.main.splash_activity.logo_text
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 
 class SplashActivity : AppCompatActivity() {
 
+    private var loading: Boolean = true
+    private val handler = Handler()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_activity)
+        launch(CommonPool) {
+            DataProvider.instance.loadData(application)
+            launch(UI) {
+                loading = false
+                fadeImage()
+            }
+        }
     }
 
     override fun onStart() {
         super.onStart()
 
-        Handler().postDelayed(this::fadeImage, SPLASH_DURATION)
+        handler.postDelayed(this::fadeImage, MIN_SPLASH_DURATION)
     }
 
     private fun startMainActivity() {
@@ -34,6 +48,10 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun fadeImage() {
+        if (loading) {
+            return
+        }
+        handler.removeCallbacks(this::fadeImage)
         val a = AlphaAnimation(1.00f, 0.00f)
 
         a.interpolator = AccelerateDecelerateInterpolator()
@@ -53,6 +71,6 @@ class SplashActivity : AppCompatActivity() {
 
     companion object {
         val FADE_DURATION: Long = 750
-        val SPLASH_DURATION: Long = 1500
+        val MIN_SPLASH_DURATION: Long = 1500
     }
 }

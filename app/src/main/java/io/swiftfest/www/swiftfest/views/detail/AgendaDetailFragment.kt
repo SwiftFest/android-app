@@ -15,10 +15,10 @@ import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
 import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.R.string
-import io.swiftfest.www.swiftfest.data.ConferenceDatabase.Speaker
-import io.swiftfest.www.swiftfest.data.Schedule
-import io.swiftfest.www.swiftfest.data.Schedule.ScheduleDetail
-import io.swiftfest.www.swiftfest.data.Schedule.ScheduleRow
+import io.swiftfest.www.swiftfest.data.model.Speaker
+import io.swiftfest.www.swiftfest.utils.Constants
+import io.swiftfest.www.swiftfest.data.model.ScheduleDetail
+import io.swiftfest.www.swiftfest.data.model.ScheduleRow
 import io.swiftfest.www.swiftfest.data.UserAgendaRepo
 import io.swiftfest.www.swiftfest.utils.NotificationUtils
 import io.swiftfest.www.swiftfest.utils.ServiceLocator.Companion.gson
@@ -55,7 +55,7 @@ class AgendaDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        scheduleRowItem = gson.fromJson(arguments!!.getString(Schedule.SCHEDULE_ITEM_ROW), ScheduleRow::class.java)
+        scheduleRowItem = gson.fromJson(arguments!!.getString(Constants.SCHEDULE_ITEM_ROW), ScheduleRow::class.java)
         fetchAgendaDetailData()
         populateView()
 
@@ -138,14 +138,9 @@ class AgendaDetailFragment : Fragment() {
             val defaultLeftMargin = resources.getDimension(R.dimen.def_margin).toInt()
 
             itemData.speakerNames.forEach { speakerName ->
-                val orgName: String? = itemData.speakerNameToOrgName[speakerName]
+                val orgName= itemData.speakerNameToOrgName[speakerName]?:getString(string.no_company_provided)
                 // append company name to speaker name
-                speakerNames += speakerName + when {
-                    orgName != null -> " - $orgName"
-                    else -> {
-                        // Do nothing
-                    }
-                }
+                speakerNames += "${speakerName} - ${orgName}"
 
                 if (itemData.speakerNames.size > 1) {
                     tv_agenda_detail_speaker_title.text = getString(string.header_speakers)
@@ -223,9 +218,9 @@ class AgendaDetailFragment : Fragment() {
     }
 
     companion object {
-        fun addDetailFragmentToStack(supportFragmentManager: FragmentManager, itemData: Schedule.ScheduleRow) {
+        fun addDetailFragmentToStack(supportFragmentManager: FragmentManager, itemData: ScheduleRow) {
             val arguments = Bundle()
-            arguments.putString(Schedule.SCHEDULE_ITEM_ROW, gson.toJson(itemData, ScheduleRow::class.java))
+            arguments.putString(Constants.SCHEDULE_ITEM_ROW, gson.toJson(itemData, ScheduleRow::class.java))
 
             val agendaDetailFragment = AgendaDetailFragment()
             agendaDetailFragment.arguments = arguments

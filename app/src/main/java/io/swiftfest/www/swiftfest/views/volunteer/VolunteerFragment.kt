@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.ConferenceDatabase.VolunteerEvent
+import io.swiftfest.www.swiftfest.data.model.Volunteer
 import io.swiftfest.www.swiftfest.utils.loadUriInCustomTab
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
@@ -69,7 +69,7 @@ class VolunteerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     }
 
 
-    private fun setupVolunteerAdapter(rows: ArrayList<VolunteerEvent>) {
+    private fun setupVolunteerAdapter(rows: ArrayList<Volunteer>) {
         val items = rows.map { VolunteerAdapterItem(it) }
         volunteer_recycler.layoutManager = LinearLayoutManager(volunteer_recycler.context)
         volunteerAdapter = FlexibleAdapter(items)

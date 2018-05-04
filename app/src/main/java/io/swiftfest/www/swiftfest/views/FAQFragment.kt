@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.swiftfest.www.swiftfest.R.layout
-import io.swiftfest.www.swiftfest.data.ConferenceDatabase.FaqEvent
+import io.swiftfest.www.swiftfest.data.model.FaqItem
 import io.swiftfest.www.swiftfest.views.faq.FaqAdapterItem
 import io.swiftfest.www.swiftfest.views.faq.FaqAdapterItemHeader
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -61,7 +61,7 @@ class FAQFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         // TODO: fetch FAQ data.
     }
 
-    private fun setupHeaderAdapter(faqs: List<FaqEvent>) {
+    private fun setupHeaderAdapter(faqs: List<FaqItem>) {
         val questionHeaders = HashMap<String, FaqAdapterItemHeader>()
         val items = ArrayList<FaqAdapterItem>(faqs.size)
         faqs.forEach { faq ->

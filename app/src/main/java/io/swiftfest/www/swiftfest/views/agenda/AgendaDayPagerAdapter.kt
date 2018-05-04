@@ -2,7 +2,7 @@ package io.swiftfest.www.swiftfest.views.agenda
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import io.swiftfest.www.swiftfest.data.Schedule
+import io.swiftfest.www.swiftfest.utils.Constants
 
 class AgendaDayPagerAdapter internal constructor(fm: FragmentManager, private val myAgenda: Boolean)
     : FixedFragmentStatePagerAdapter(fm) {
@@ -16,7 +16,7 @@ class AgendaDayPagerAdapter internal constructor(fm: FragmentManager, private va
 
     override fun getItem(position: Int): Fragment {
         return AgendaDayFragment.newInstance(myAgenda,
-                if (position == 0) Schedule.MONDAY else Schedule.TUESDAY
+                if (position == 0) Constants.MONDAY else Constants.TUESDAY
         )
     }
 

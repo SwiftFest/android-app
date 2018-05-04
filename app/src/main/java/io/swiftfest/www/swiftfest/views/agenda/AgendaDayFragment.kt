@@ -11,13 +11,14 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.Schedule.ScheduleRow
 import io.swiftfest.www.swiftfest.data.UserAgendaRepo
 import io.swiftfest.www.swiftfest.utils.isNullorEmpty
 import io.swiftfest.www.swiftfest.views.detail.AgendaDetailFragment
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.helpers.EmptyViewHelper
+import io.swiftfest.www.swiftfest.data.DataProvider
+import io.swiftfest.www.swiftfest.data.model.Schedule
 import java.util.*
 
 
@@ -29,6 +30,8 @@ class AgendaDayFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 
     private var dayFilter: String = ""
     private var onlyMyAgenda: Boolean = false
+
+    private val dataProvider = DataProvider.instance
 
     private lateinit var userAgendaRepo: UserAgendaRepo
     private var headerAdapter: FlexibleAdapter<ScheduleAdapterItem>? = null
@@ -94,63 +97,29 @@ class AgendaDayFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         agendaRecyler.adapter.notifyDataSetChanged()
     }
 
-//    val dataListener: ValueEventListener = object : ValueEventListener {
-//        override fun onDataChange(dataSnapshot: DataSnapshot) {
-//            val rows = ArrayList<ScheduleRow>()
-//            for (roomSnapshot in dataSnapshot.children) {
-//                val key = roomSnapshot.key
-//                val data = roomSnapshot.getValue(ScheduleEvent::class.java)
-//                Log.d(TAG, "Event: $data")
-//                if (data != null) {
-//                    val scheduleRow = data.toScheduleRow(key)
-//                    if (scheduleRow.date == dayFilter && (!onlyMyAgenda
-//                                    || onlyMyAgenda && userAgendaRepo.isSessionBookmarked(scheduleRow.id))) {
-//                        rows.add(scheduleRow)
-//                    }
-//                }
-//            }
-//
-//            setupHeaderAdapter(rows)
-//        }
-//
-//        override fun onCancelled(databaseError: DatabaseError) {
-//            Log.w(TAG, "scheduleQuery:onCancelled", databaseError.toException())
-//        }
-//    }
-
     private fun fetchScheduleData() {
-        // TODO: fetch schedule data.
-
-//        launch(CommonPool) {
-//            try {
-//                Fuse.jsonCache.get(URL(MyApplication.SPEAKER_URL)) { result ->
-//                    result.success { json ->
-//                        val speakers = json.toString().parseJson(object : TypeToken<List<ConferenceDatabase.Speaker>>() {})
-//                        launch(UI) {
-//                            setupHeaderAdapter(speakers!!)
-//                        }
-//                        //do something with json object (result is Result<JsonObject, Exception>)
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace();
-//                Toast.makeText(activity, "Error retrieving speakers", Toast.LENGTH_SHORT).show()
-//            }
-//        }
+        val schedule = dataProvider.schedules.findLast { it.date == dayFilter }
+        // Assume the schedule day exists.
+        setupHeaderAdapter(schedule!!)
     }
 
-    private fun setupHeaderAdapter(rows: List<ScheduleRow>) {
-        val items = ArrayList<ScheduleAdapterItem>(rows.size)
-        for (row in rows) {
-            val timeDisplay = if (row.startTime.isEmpty()) "Unscheduled" else row.startTime
-            var header: ScheduleAdapterItemHeader? = timeHeaders[timeDisplay]
-            if (header == null) {
-                header = ScheduleAdapterItemHeader(timeDisplay)
-                timeHeaders[timeDisplay] = header
-            }
+    private fun setupHeaderAdapter(schedule: Schedule) {
+        val items = ArrayList<ScheduleAdapterItem>()
+        for (timeSlot in schedule.timeslots) {
+            val timeDisplay = if (timeSlot.startTime.isEmpty()) "Unscheduled" else timeSlot.startTime
+            for (sessionId in timeSlot.sessionIds) {
+                var header: ScheduleAdapterItemHeader? = timeHeaders[timeDisplay]
+                if (header == null) {
+                    header = ScheduleAdapterItemHeader(timeDisplay)
+                    timeHeaders[timeDisplay] = header
+                }
 
-            val item = ScheduleAdapterItem(row, header)
-            items.add(item)
+                if (!onlyMyAgenda || onlyMyAgenda && userAgendaRepo.isSessionBookmarked(sessionId.toString())) {
+                    val scheduleRow = dataProvider.toScheduleRow(timeSlot, sessionId, schedule.date)
+                    val item = ScheduleAdapterItem(scheduleRow, header)
+                    items.add(item)
+                }
+            }
         }
 
         val sortedItems = items.sortedWith(
