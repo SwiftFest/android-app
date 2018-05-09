@@ -14,6 +14,7 @@ class CocFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
+        // TODO: determine if header can be removed from the embedded web view.
         val view = inflater.inflate(R.layout.coc_fragment, container, false)
         val webView = view.findViewById(R.id.webView) as WebView
         val webSettings = webView.settings
