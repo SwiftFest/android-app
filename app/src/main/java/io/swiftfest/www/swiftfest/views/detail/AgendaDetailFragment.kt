@@ -124,10 +124,10 @@ class AgendaDetailFragment : Fragment() {
         // TODO: fetch agenda detail (speaker information)
         scheduleDetail = ScheduleDetail(scheduleRowItem)
         val primarySpeaker = dataProvider.speakers.get(scheduleRowItem.primarySpeakerId)
-        scheduleDetail.speakerBio = primarySpeaker.bio?:""
-        scheduleDetail.facebook = primarySpeaker.socialProfiles.get("facebook")?:""
-        scheduleDetail.linkedIn = primarySpeaker.socialProfiles.get("linkedin")?:""
-        scheduleDetail.twitter = primarySpeaker.socialProfiles.get("twitter")?:""
+        scheduleDetail.speakerBio = primarySpeaker.bio ?: ""
+        scheduleDetail.facebook = primarySpeaker.socialProfiles.get("facebook") ?: ""
+        scheduleDetail.linkedIn = primarySpeaker.socialProfiles.get("linkedin") ?: ""
+        scheduleDetail.twitter = primarySpeaker.socialProfiles.get("twitter") ?: ""
 
         showAgendaDetail(scheduleDetail)
     }
@@ -149,9 +149,9 @@ class AgendaDetailFragment : Fragment() {
             val defaultLeftMargin = resources.getDimension(R.dimen.def_margin).toInt()
 
             itemData.speakerNames.forEach { speakerName ->
-                val orgName= itemData.speakerNameToOrgName[speakerName]?:getString(string.no_company_provided)
+                val orgName = itemData.speakerNameToOrgName[speakerName]
                 // append company name to speaker name
-                speakerNames += "${speakerName} - ${orgName}"
+                speakerNames += "${speakerName} - ${orgName?:""}"
 
                 if (itemData.speakerNames.size > 1) {
                     tv_agenda_detail_speaker_title.text = getString(string.header_speakers)
