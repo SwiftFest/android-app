@@ -8,14 +8,17 @@ data class ScheduleRow(
         var speakerCount: Int = 0,
         var talkDescription: String = "",
         var speakerNames: List<String> = emptyList(),
-        var speakerNameToOrgName: Map<String, String> = HashMap(0),
+        var speakerNameToOrgName: Map<String, String?> = HashMap(0),
         var utcStartTimeString: String = "",
         var endTime: String = "",
         var room: String = "",
         var date: String = "",
         var trackSortOrder: Int = 0,
         var photoUrlMap: Map<String, String> = HashMap(0),
-        var isOver: Boolean = false) {
+        var isOver: Boolean = false,
+        var speakerIds: List<Int> = emptyList(),
+        var primarySpeakerId: Int = 0
+) {
 
     fun hasSpeaker(): Boolean = speakerNames.isNotEmpty()
 

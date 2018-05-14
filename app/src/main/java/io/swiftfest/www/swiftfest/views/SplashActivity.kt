@@ -11,24 +11,29 @@ import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.AlphaAnimation
 import io.swiftfest.www.swiftfest.data.DataProvider
-import kotlinx.android.synthetic.main.splash_activity.logo_text
+import kotlinx.android.synthetic.main.splash_activity.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 
 
 class SplashActivity : AppCompatActivity() {
 
-    private var loading: Boolean = true
     private val handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_activity)
+        spin_kit.visibility = View.VISIBLE
         launch(CommonPool) {
-            DataProvider.instance.loadData(application)
+            val sessionTask = async { DataProvider.instance.loadSessions(application) }
+            val scheduleTask = async { DataProvider.instance.loadSchedules(application) }
+            val speakerTask = async { DataProvider.instance.loadSpeakers(application) }
+            sessionTask.await()
+            scheduleTask.await()
+            speakerTask.await()
             launch(UI) {
-                loading = false
                 fadeImage()
             }
         }
@@ -37,7 +42,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        handler.postDelayed(this::fadeImage, MIN_SPLASH_DURATION)
+//        handler.postDelayed(this::fadeImage, MIN_SPLASH_DURATION)
     }
 
     private fun startMainActivity() {
@@ -48,9 +53,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun fadeImage() {
-        if (loading) {
-            return
-        }
+        spin_kit.visibility = View.INVISIBLE
         handler.removeCallbacks(this::fadeImage)
         val a = AlphaAnimation(1.00f, 0.00f)
 

@@ -44,15 +44,24 @@ class SpeakerDetailFragment : Fragment() {
 
     private fun populateView(itemData: Speaker) {
         tv_speaker_detail_name.text = itemData.name
-        tv_speaker_detail_designation.text = String.format("%s \n@ %s", itemData.title, itemData.company)
+        val designationText = StringBuilder()
+        if (!itemData.title.isNullOrBlank()) {
+           designationText.append(itemData.title)
+        }
+        if (!itemData.company.isNullOrBlank()) {
+            designationText.append("\n@ ").append(itemData.company)
+        }
+
+        tv_speaker_detail_designation.text = designationText.toString()
+
         itemData.bio?.let {
             tv_speaker_detail_description.text = it.getHtmlFormattedSpanned()
         }
 
         tv_speaker_detail_description.movementMethod = LinkMovementMethod.getInstance()
 
-        val twitterHandle = itemData.socialProfiles?.get("twitter")
-        if (!twitterHandle.isNullOrEmpty()) {
+        val twitterHandle = itemData.socialProfiles.get("twitter")?:""
+        if (!twitterHandle.isEmpty()) {
             imgv_twitter.setOnClickListener({
                 activity?.loadUriInCustomTab(String.format("%s%s", resources.getString(R.string.twitter_link), twitterHandle))
             })
@@ -61,8 +70,8 @@ class SpeakerDetailFragment : Fragment() {
         }
 
 
-        val linkedinHandle = itemData.socialProfiles?.get("linkedIn")
-        if (!linkedinHandle.isNullOrEmpty()) {
+        val linkedinHandle = itemData.socialProfiles.get("linkedIn")?:""
+        if (!linkedinHandle.isEmpty()) {
             imgv_linkedin.setOnClickListener({
                 activity?.loadUriInCustomTab(String.format("%s%s", resources.getString(R.string.linkedin_profile_link), linkedinHandle))
             })

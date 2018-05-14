@@ -46,6 +46,7 @@
             tools:text="@tools:sample/full_names" />
 
 
+        <!--android:textColor="@color/colorAccent"-->
         <TextView
             android:id="@+id/tv_speaker_detail_designation"
             android:layout_width="match_parent"
@@ -55,9 +56,9 @@
             android:layout_below="@+id/tv_speaker_detail_name"
             android:fontFamily="sans-serif"
             android:gravity="center"
+            android:textColor="@color/white"
             android:paddingEnd="@dimen/def_padding_large"
             android:paddingStart="@dimen/def_padding_large"
-            android:textColor="@color/colorAccent"
             android:textSize="18sp"
             tools:text="Software Engineer @ Company" />
 

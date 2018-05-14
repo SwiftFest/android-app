@@ -4,8 +4,8 @@ data class Speaker(
         val id: Int,
         val name: String,
         val surname: String,
-        val company: String,
-        val title: String,
+        val company: String?,
+        val title: String?,
         val bio: String?,
         val thumbnailUrl: String,
         val rockstar: Boolean) {

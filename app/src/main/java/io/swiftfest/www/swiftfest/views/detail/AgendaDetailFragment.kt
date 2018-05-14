@@ -15,6 +15,7 @@ import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
 import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.R.string
+import io.swiftfest.www.swiftfest.data.DataProvider
 import io.swiftfest.www.swiftfest.data.model.Speaker
 import io.swiftfest.www.swiftfest.utils.Constants
 import io.swiftfest.www.swiftfest.data.model.ScheduleDetail
@@ -38,8 +39,10 @@ import kotlinx.android.synthetic.main.agenda_detail_fragment.v_agenda_detail_spe
 
 class AgendaDetailFragment : Fragment() {
 
-    private var scheduleDetail: ScheduleDetail? = null
+    private val dataProvider = DataProvider.instance
+
     private lateinit var scheduleRowItem: ScheduleRow
+    private lateinit var scheduleDetail: ScheduleDetail
     private val eventSpeakers = HashMap<String, Speaker>()
 
     private val userAgendaRepo: UserAgendaRepo
@@ -119,6 +122,14 @@ class AgendaDetailFragment : Fragment() {
 
     private fun fetchAgendaDetailData() {
         // TODO: fetch agenda detail (speaker information)
+        scheduleDetail = ScheduleDetail(scheduleRowItem)
+        val primarySpeaker = dataProvider.speakers.get(scheduleRowItem.primarySpeakerId)
+        scheduleDetail.speakerBio = primarySpeaker.bio?:""
+        scheduleDetail.facebook = primarySpeaker.socialProfiles.get("facebook")?:""
+        scheduleDetail.linkedIn = primarySpeaker.socialProfiles.get("linkedin")?:""
+        scheduleDetail.twitter = primarySpeaker.socialProfiles.get("twitter")?:""
+
+        showAgendaDetail(scheduleDetail)
     }
 
     override fun onDestroyView() {
