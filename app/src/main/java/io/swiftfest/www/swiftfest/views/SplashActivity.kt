@@ -20,8 +20,6 @@ import kotlinx.coroutines.experimental.launch
 
 class SplashActivity : AppCompatActivity() {
 
-    private val handler = Handler()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_activity)
@@ -39,12 +37,6 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-
-//        handler.postDelayed(this::fadeImage, MIN_SPLASH_DURATION)
-    }
-
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
@@ -54,7 +46,6 @@ class SplashActivity : AppCompatActivity() {
 
     private fun fadeImage() {
         spin_kit.visibility = View.INVISIBLE
-        handler.removeCallbacks(this::fadeImage)
         val a = AlphaAnimation(1.00f, 0.00f)
 
         a.interpolator = AccelerateDecelerateInterpolator()
