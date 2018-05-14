@@ -80,7 +80,7 @@ class SpeakerDetailFragment : Fragment() {
         }
 
         Glide.with(activity)
-                .load(itemData.thumbnailUrl)
+                .load(itemData.getFullUrl())
                 .transform(CircleTransform(imgv_speaker_detail_avatar.context))
                 .placeholder(R.drawable.emo_im_cool)
                 .crossFade()

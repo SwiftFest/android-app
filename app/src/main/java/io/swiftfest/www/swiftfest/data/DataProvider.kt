@@ -32,51 +32,60 @@ class DataProvider private constructor() {
     fun loadSpeakers(context: Context) {
         val (request, response, result) = SPEAKER_URL.httpGet().responseString()
         val speakerListType = object : TypeToken<List<Speaker>>() {}.type
+        var data = ""
         when (result) {
             is Result.Failure -> {
                 val ex = result.getException()
                 e("getSpeakers", ex.toString())
-                speakers = Gson().fromJson<List<Speaker>>(loadResourceFile(context, R.raw.speakers), speakerListType)
-
             }
             is Result.Success -> {
-                val data = result.get()
-                speakers = Gson().fromJson<List<Speaker>>(data, speakerListType)
+                data = result.get()
             }
         }
+        if (data.isBlank()) {
+            data = loadResourceFile(context, R.raw.speakers)
+        }
+        speakers = Gson().fromJson<List<Speaker>>(data, speakerListType)
+
         setupSpeakerMap()
     }
 
     fun loadSchedules(context: Context) {
         val (request, response, result) = SCHEDULE_URL.httpGet().responseString()
         val scheduleListType = object : TypeToken<List<Schedule>>() {}.type
+        var data = ""
         when (result) {
             is Result.Failure -> {
                 val ex = result.getException()
                 e("getSchedule", ex.toString())
-                schedules = Gson().fromJson<List<Schedule>>(loadResourceFile(context, R.raw.schedule), scheduleListType)
             }
             is Result.Success -> {
-                val data = result.get()
-                schedules = Gson().fromJson<List<Schedule>>(data, scheduleListType)
+                data = result.get()
             }
         }
+        if (data.isBlank()) {
+            data = loadResourceFile(context, R.raw.schedule)
+        }
+        schedules = Gson().fromJson<List<Schedule>>(data, scheduleListType)
     }
 
     fun loadSessions(context: Context) {
         val (request, response, result) = SESSION_URL.httpGet().responseString()
         val sessionListType = object : TypeToken<List<Session>>() {}.type
+        var data = ""
         when (result) {
             is Result.Failure -> {
                 val ex = result.getException()
                 e("getSessions", ex.toString())
-                sessions = Gson().fromJson<List<Session>>(loadResourceFile(context, R.raw.sessions), sessionListType)
             }
             is Result.Success -> {
-                val data = result.get()
-                sessions = Gson().fromJson<List<Session>>(data, sessionListType)
+                data = result.get()
             }
         }
+        if (data.isBlank()) {
+            data = loadResourceFile(context, R.raw.sessions)
+        }
+        sessions = Gson().fromJson<List<Session>>(data, sessionListType)
         setupSessionMap()
     }
 
@@ -106,7 +115,7 @@ class DataProvider private constructor() {
             scheduleRow.speakerNames = sessionSpeakers.map { it.name }
             scheduleRow.primarySpeakerName = scheduleRow.speakerNames.get(0)
             scheduleRow.primarySpeakerId = scheduleRow.speakerIds.get(0)
-            scheduleRow.photoUrlMap = sessionSpeakers.map { it.name to it.thumbnailUrl }.toMap()
+            scheduleRow.photoUrlMap = sessionSpeakers.map { it.name to it.getFullUrl() }.toMap()
             scheduleRow.speakerNameToOrgName = sessionSpeakers.map { it.name to it.company }.toMap()
         }
         scheduleRow.date = sessionDate

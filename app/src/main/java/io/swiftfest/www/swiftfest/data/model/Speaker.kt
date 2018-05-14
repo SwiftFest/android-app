@@ -11,6 +11,10 @@ data class Speaker(
         val rockstar: Boolean) {
 //            val social: List<Social>) {
 
+    fun getFullUrl() : String {
+        return "http://swiftfest.io/img/people/${thumbnailUrl}"
+    }
+
     val socialProfiles: Map<String, String>
         get() {
             // TODO: fix parsing and readd.
