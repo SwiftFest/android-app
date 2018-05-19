@@ -46,17 +46,18 @@ class VolunteerAdapterItem internal constructor(val itemData: Volunteer) :
     }
 
     private fun extractLink(it: Social): String {
-        if (!it.name.equals("site")) {
-            val linkTokens = it.link.split("/")
-            val link = linkTokens[linkTokens.size - 1]
-            if (link.isBlank()) {
-                if (linkTokens.size > 1) {
-                    return linkTokens[linkTokens.size - 2]
-                }
-            }
-            return ""
+        if (it.name.equals("site")) {
+            return it.link
         }
-        return it.link
+
+        val linkTokens = it.link.split("/")
+        val link = linkTokens[linkTokens.size - 1]
+        if (link.isBlank()) {
+            if (linkTokens.size > 1) {
+                return linkTokens[linkTokens.size - 2]
+            }
+        }
+        return link
     }
 
     override fun equals(other: Any?): Boolean {
