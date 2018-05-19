@@ -26,7 +26,7 @@ class VolunteerAdapterItem internal constructor(val itemData: Volunteer) :
         val bodyText = StringBuilder()
         itemData.social.map {
             val simpleLink = extractLink(it)
-            if (simpleLink.isNotBlank() && !simpleLink.contains("%")) {
+            if (simpleLink.isNotBlank()) {
                 val text = "${it.name.capitalize()}: ${simpleLink}"
                 bodyText.append(text).append("\n")
             }
@@ -47,15 +47,14 @@ class VolunteerAdapterItem internal constructor(val itemData: Volunteer) :
 
     private fun extractLink(it: Social): String {
         if (!it.name.equals("site")) {
-            val link: String
-            val lastIndex = it.link.lastIndex
-            if (it.link.get(lastIndex).equals("/")) {
-                link = it.link.substring(0, lastIndex-1)
-            } else {
-                link = it.link
+            val linkTokens = it.link.split("/")
+            val link = linkTokens[linkTokens.size - 1]
+            if (link.isBlank()) {
+                if (linkTokens.size > 1) {
+                    return linkTokens[linkTokens.size - 2]
+                }
             }
-            val linkTokens = link.split("/")
-            return linkTokens[linkTokens.size - 1]
+            return ""
         }
         return it.link
     }

@@ -2,6 +2,7 @@ package io.swiftfest.www.swiftfest.views.volunteer
 
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -15,6 +16,8 @@ import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.data.DataProvider
 import io.swiftfest.www.swiftfest.data.model.Volunteer
 import kotlinx.android.synthetic.main.volunteer_fragment.*
+
+
 
 
 class VolunteerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
@@ -54,8 +57,13 @@ class VolunteerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         }
 
         val context = activity as Context
-        AlertDialog.Builder(context)
-                .setTitle("${volunteer.name} ${volunteer.surname}")
+        val builder: AlertDialog.Builder
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert)
+        } else {
+            builder = AlertDialog.Builder(context)
+        }
+        builder.setTitle("${volunteer.name} ${volunteer.surname}")
                 .setMessage(bodyText.toString())
                 .setIcon(R.drawable.icon)
                 .setPositiveButton(android.R.string.yes, { dialog, which ->
