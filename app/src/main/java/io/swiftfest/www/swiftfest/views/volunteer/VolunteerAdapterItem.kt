@@ -5,14 +5,15 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.model.Volunteer
-import io.swiftfest.www.swiftfest.views.transform.CircleTransform
-import io.swiftfest.www.swiftfest.views.volunteer.VolunteerAdapterItem.ViewHolder
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import io.swiftfest.www.swiftfest.R
+import io.swiftfest.www.swiftfest.data.model.Social
+import io.swiftfest.www.swiftfest.data.model.Volunteer
+import io.swiftfest.www.swiftfest.views.transform.CircleTransform
+import io.swiftfest.www.swiftfest.views.volunteer.VolunteerAdapterItem.ViewHolder
 
 /**
  * Used for displaying volunteer list items on the all volunteers "volunteers" page.
@@ -22,37 +23,53 @@ class VolunteerAdapterItem internal constructor(val itemData: Volunteer) :
 
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?,
                                 holder: ViewHolder, position: Int, payloads: MutableList<Any>?) {
-
-
-
-        var bodyText = itemData.position
-        if (!itemData.twitter.isEmpty()) {
-            bodyText += "\nTwitter: @${itemData.twitter}"
+        val bodyText = StringBuilder()
+        itemData.social.map {
+            val simpleLink = extractLink(it)
+            if (simpleLink.isNotBlank() && !simpleLink.contains("%")) {
+                val text = "${it.name.capitalize()}: ${simpleLink}"
+                bodyText.append(text).append("\n")
+            }
         }
 
-        holder.name.text = String.format("%s %s", itemData.firstName, itemData.lastName)
+        holder.name.text = String.format("%s %s", itemData.name, itemData.surname)
         holder.bio.text = bodyText
 
         val context = holder.name.context
 
         Glide.with(context)
-                .load(itemData.pictureUrl)
+                .load(itemData.thumbnailUrl)
                 .transform(CircleTransform(context))
                 .placeholder(R.drawable.emo_im_cool)
                 .crossFade()
                 .into(holder.avatar)
     }
 
+    private fun extractLink(it: Social): String {
+        if (!it.name.equals("site")) {
+            val link: String
+            val lastIndex = it.link.lastIndex
+            if (it.link.get(lastIndex).equals("/")) {
+                link = it.link.substring(0, lastIndex-1)
+            } else {
+                link = it.link
+            }
+            val linkTokens = link.split("/")
+            return linkTokens[linkTokens.size - 1]
+        }
+        return it.link
+    }
+
     override fun equals(other: Any?): Boolean {
         if (other is VolunteerAdapterItem) {
             val inItem = other as VolunteerAdapterItem?
-            return this.itemData.firstName == inItem?.itemData?.firstName
+            return this.itemData.name == inItem?.itemData?.name
         }
         return false
     }
 
     override fun hashCode(): Int {
-        return itemData.firstName.hashCode()
+        return itemData.name.hashCode()
     }
 
     override fun getLayoutRes(): Int {

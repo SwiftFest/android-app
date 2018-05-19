@@ -4,20 +4,22 @@ package io.swiftfest.www.swiftfest.views.volunteer
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.data.model.Volunteer
-import io.swiftfest.www.swiftfest.utils.loadUriInCustomTab
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
-import kotlinx.android.synthetic.main.volunteer_fragment.volunteer_recycler
+import io.swiftfest.www.swiftfest.R
+import io.swiftfest.www.swiftfest.data.DataProvider
+import io.swiftfest.www.swiftfest.data.model.Volunteer
+import kotlinx.android.synthetic.main.volunteer_fragment.*
 
 
 class VolunteerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 
+    private val dataProvider = DataProvider.instance
     private lateinit var volunteerAdapter: FlexibleAdapter<VolunteerAdapterItem>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -28,49 +30,11 @@ class VolunteerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fetchVolunteerData()
+        setupVolunteerAdapter(dataProvider.volunteers)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-//    val dataListener: ValueEventListener = object : ValueEventListener {
-//        override fun onDataChange(dataSnapshot: DataSnapshot) {
-//            val rows = ArrayList<VolunteerEvent>()
-//            for (volunteerSnapshot in dataSnapshot.children) {
-//                val volunteer = volunteerSnapshot.getValue(VolunteerEvent::class.java)
-//                if (volunteer != null) {
-//                    rows.add(volunteer)
-//                }
-//            }
-//
-//            setupVolunteerAdapter(rows)
-//        }
-//
-//        override fun onCancelled(databaseError: DatabaseError) {
-//            Log.e(javaClass.canonicalName, "detailQuery:onCancelled", databaseError.toException())
-//        }
-//    }
-
-    private fun fetchVolunteerData() {
-        // TODO: fetch volunteer data.
-    }
-
-    override fun onItemClick(view: View, position: Int): Boolean {
-        val item = volunteerAdapter.getItem(position)
-        if (item is VolunteerAdapterItem && !item.itemData.twitter.isEmpty()) {
-            val context = activity as Context
-            context.loadUriInCustomTab(String.format("%s%s", resources.getString(R.string.twitter_link), item.itemData.twitter))
-            return false
-        }
-
-        return true // propagate.
-    }
-
-
-    private fun setupVolunteerAdapter(rows: ArrayList<Volunteer>) {
-        val items = rows.map { VolunteerAdapterItem(it) }
+    private fun setupVolunteerAdapter(volunteers: List<Volunteer>) {
+        val items = volunteers.map { VolunteerAdapterItem(it) }
         volunteer_recycler.layoutManager = LinearLayoutManager(volunteer_recycler.context)
         volunteerAdapter = FlexibleAdapter(items)
         volunteerAdapter.addListener(this)
@@ -78,4 +42,30 @@ class VolunteerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         volunteer_recycler.addItemDecoration(FlexibleItemDecoration(volunteer_recycler.context).withDefaultDivider())
         volunteerAdapter.expandItemsAtStartUp().setDisplayHeadersAtStartUp(false)
     }
+
+    override fun onItemClick(view: View, position: Int): Boolean {
+        val item = volunteerAdapter.getItem(position) as VolunteerAdapterItem
+        val volunteer = item.itemData
+        val bodyText = StringBuilder()
+        bodyText.append(volunteer.title).append("\n---")
+
+        volunteer.social.map {
+            bodyText.append("\n${it.name.capitalize()}:\n${it.link}\n")
+        }
+
+        val context = activity as Context
+        AlertDialog.Builder(context)
+                .setTitle("${volunteer.name} ${volunteer.surname}")
+                .setMessage(bodyText.toString())
+                .setIcon(R.drawable.icon)
+                .setPositiveButton(android.R.string.yes, { dialog, which ->
+                    dialog.dismiss()
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show()
+
+        return true // propagate.
+    }
+
+
 }

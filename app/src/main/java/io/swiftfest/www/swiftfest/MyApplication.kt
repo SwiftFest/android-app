@@ -17,5 +17,6 @@ class MyApplication : Application() {
         val SPEAKER_URL = "http://swiftfest.io/speakers.json"
         val SCHEDULE_URL = "http://swiftfest.io/schedule.json"
         val SESSION_URL = "http://swiftfest.io/sessions.json"
+        val VOLUNTEER_URL = "http://swiftfest.io/team.json"
     }
 }

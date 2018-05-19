@@ -1,8 +1,15 @@
 package io.swiftfest.www.swiftfest.data.model
 
 data class Volunteer(
-        val twitter: String = "",
-        val pictureUrl: String = "",
-        var position: String = "",
-        var firstName: String = "",
-        var lastName: String = "")
+    val id: String,
+    val name: String,
+    val surname: String,
+    val title: String,
+    val thumbnailUrl: String,
+    val team: Boolean,
+    val social: List<Social>
+) {
+
+
+
+}

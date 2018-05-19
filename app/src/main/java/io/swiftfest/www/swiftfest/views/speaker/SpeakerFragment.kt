@@ -7,14 +7,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import io.swiftfest.www.swiftfest.R
+import io.swiftfest.www.swiftfest.data.DataProvider
 import io.swiftfest.www.swiftfest.data.model.Speaker
 import io.swiftfest.www.swiftfest.utils.ServiceLocator.Companion.gson
 import io.swiftfest.www.swiftfest.views.detail.SpeakerDetailFragment
-import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import kotlinx.android.synthetic.main.speaker_fragment.*
-import io.swiftfest.www.swiftfest.data.DataProvider
 
 
 class SpeakerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
@@ -33,7 +33,13 @@ class SpeakerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     }
 
     private fun fetchSpeakerData() {
-        setupSpeakerAdapter(DataProvider.instance.speakers)
+        val items = DataProvider.instance.speakers.map { SpeakerAdapterItem(it) }
+        speaker_recycler.layoutManager = LinearLayoutManager(speaker_recycler.context)
+        speakerAdapter = FlexibleAdapter(items)
+        speakerAdapter.addListener(this)
+        speaker_recycler.adapter = speakerAdapter
+        speaker_recycler.addItemDecoration(FlexibleItemDecoration(speaker_recycler.context).withDefaultDivider())
+        speakerAdapter.expandItemsAtStartUp().setDisplayHeadersAtStartUp(false)
     }
 
     override fun onItemClick(view: View, position: Int): Boolean {
@@ -59,13 +65,4 @@ class SpeakerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         return true
     }
 
-    private fun setupSpeakerAdapter(rows: List<Speaker>) {
-        val items = rows.map { SpeakerAdapterItem(it) }
-        speaker_recycler.layoutManager = LinearLayoutManager(speaker_recycler.context)
-        speakerAdapter = FlexibleAdapter(items)
-        speakerAdapter.addListener(this)
-        speaker_recycler.adapter = speakerAdapter
-        speaker_recycler.addItemDecoration(FlexibleItemDecoration(speaker_recycler.context).withDefaultDivider())
-        speakerAdapter.expandItemsAtStartUp().setDisplayHeadersAtStartUp(false)
-    }
 }

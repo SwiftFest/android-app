@@ -2,14 +2,13 @@ package io.swiftfest.www.swiftfest.views
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import io.swiftfest.www.swiftfest.R
+import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
-import android.view.animation.AlphaAnimation
+import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.data.DataProvider
 import kotlinx.android.synthetic.main.splash_activity.*
 import kotlinx.coroutines.experimental.CommonPool
@@ -28,9 +27,11 @@ class SplashActivity : AppCompatActivity() {
             val sessionTask = async { DataProvider.instance.loadSessions(application) }
             val scheduleTask = async { DataProvider.instance.loadSchedules(application) }
             val speakerTask = async { DataProvider.instance.loadSpeakers(application) }
+            val volunteerTask = async { DataProvider.instance.loadVolunteers(application) }
             sessionTask.await()
             scheduleTask.await()
             speakerTask.await()
+            volunteerTask.await()
             launch(UI) {
                 fadeImage()
             }

@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken
 import io.swiftfest.www.swiftfest.MyApplication.Companion.SCHEDULE_URL
 import io.swiftfest.www.swiftfest.MyApplication.Companion.SESSION_URL
 import io.swiftfest.www.swiftfest.MyApplication.Companion.SPEAKER_URL
+import io.swiftfest.www.swiftfest.MyApplication.Companion.VOLUNTEER_URL
 import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.data.model.*
 
@@ -17,6 +18,7 @@ class DataProvider private constructor() {
     lateinit var speakers: List<Speaker>
     lateinit var sessions: List<Session>
     lateinit var schedules: List<Schedule>
+    lateinit var volunteers: List<Volunteer>
 
     private object Holder {
         val INSTANCE = DataProvider()
@@ -42,10 +44,13 @@ class DataProvider private constructor() {
                 data = result.get()
             }
         }
-        if (data.isBlank()) {
-            data = loadResourceFile(context, R.raw.speakers)
+
+        try {
+            speakers = Gson().fromJson<List<Speaker>>(data, speakerListType)
+        } catch (err: Exception) {
+            e("parseSpeakers", err.toString())
+            speakers = Gson().fromJson<List<Speaker>>(loadResourceFile(context, R.raw.speakers), speakerListType)
         }
-        speakers = Gson().fromJson<List<Speaker>>(data, speakerListType)
 
         setupSpeakerMap()
     }
@@ -63,10 +68,12 @@ class DataProvider private constructor() {
                 data = result.get()
             }
         }
-        if (data.isBlank()) {
-            data = loadResourceFile(context, R.raw.schedule)
+        try {
+            schedules = Gson().fromJson<List<Schedule>>(data, scheduleListType)
+        } catch (err: Exception) {
+            e("parseSchedules", err.toString())
+            schedules = Gson().fromJson<List<Schedule>>(loadResourceFile(context, R.raw.schedule), scheduleListType)
         }
-        schedules = Gson().fromJson<List<Schedule>>(data, scheduleListType)
     }
 
     fun loadSessions(context: Context) {
@@ -82,11 +89,34 @@ class DataProvider private constructor() {
                 data = result.get()
             }
         }
-        if (data.isBlank()) {
-            data = loadResourceFile(context, R.raw.sessions)
+        try {
+            sessions = Gson().fromJson<List<Session>>(data, sessionListType)
+        } catch (err: Exception) {
+            e("parseSessions", err.toString())
+            sessions = Gson().fromJson<List<Session>>(loadResourceFile(context, R.raw.sessions), sessionListType)
         }
-        sessions = Gson().fromJson<List<Session>>(data, sessionListType)
         setupSessionMap()
+    }
+
+    fun loadVolunteers(context: Context) {
+        val (request, response, result) = VOLUNTEER_URL.httpGet().responseString()
+        val volunteersListType = object : TypeToken<List<Volunteer>>() {}.type
+        var data = ""
+        when (result) {
+            is Result.Failure -> {
+                val ex = result.getException()
+                e("getVolunteers", ex.toString())
+            }
+            is Result.Success -> {
+                data = result.get()
+            }
+        }
+        try {
+            volunteers = Gson().fromJson<List<Volunteer>>(data, volunteersListType)
+        } catch (err: Exception) {
+            e("parseVolunteers", err.toString())
+            volunteers = Gson().fromJson<List<Volunteer>>(loadResourceFile(context, R.raw.volunteers), volunteersListType)
+        }
     }
 
     private lateinit var speakerMap: Map<Int, Speaker>
