@@ -8,18 +8,16 @@ data class Speaker(
         val title: String?,
         val bio: String?,
         val thumbnailUrl: String,
-        val rockstar: Boolean) {
-//            val social: List<Social>) {
+        val rockstar: Boolean,
+        val social: List<Social>) {
 
-    fun getFullUrl() : String {
+    fun getFullUrl(): String {
         return "http://swiftfest.io/img/people/${thumbnailUrl}"
     }
 
     val socialProfiles: Map<String, String>
         get() {
-            // TODO: fix parsing and readd.
-//                return social.map { it.name to it.link }.toMap()
-            return mapOf()
+            return social.map { it.name to it.link }.toMap()
         }
 
     companion object {

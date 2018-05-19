@@ -14,17 +14,13 @@ import io.swiftfest.www.swiftfest.utils.getHtmlFormattedSpanned
 import io.swiftfest.www.swiftfest.utils.loadUriInCustomTab
 import io.swiftfest.www.swiftfest.views.MainActivity
 import io.swiftfest.www.swiftfest.views.transform.CircleTransform
-import kotlinx.android.synthetic.main.speaker_detail_fragment.imgv_linkedin
-import kotlinx.android.synthetic.main.speaker_detail_fragment.imgv_speaker_detail_avatar
-import kotlinx.android.synthetic.main.speaker_detail_fragment.imgv_twitter
-import kotlinx.android.synthetic.main.speaker_detail_fragment.tv_speaker_detail_description
-import kotlinx.android.synthetic.main.speaker_detail_fragment.tv_speaker_detail_designation
-import kotlinx.android.synthetic.main.speaker_detail_fragment.tv_speaker_detail_name
+import kotlinx.android.synthetic.main.speaker_detail_fragment.*
 
 
 class SpeakerDetailFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.speaker_detail_fragment, container, false)
@@ -32,7 +28,6 @@ class SpeakerDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val itemData = gson.fromJson(arguments!!.getString(Speaker.SPEAKER_ITEM_ROW), Speaker::class.java)
         populateView(itemData)
 
