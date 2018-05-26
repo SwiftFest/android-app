@@ -10,6 +10,8 @@ data class Volunteer(
     val social: List<Social>
 ) {
 
-
+    fun getFullThumbnailUrl(): String {
+        return "http://swiftfest.io/img/people/${thumbnailUrl}"
+    }
 
 }

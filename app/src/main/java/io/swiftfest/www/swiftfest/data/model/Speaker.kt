@@ -11,7 +11,7 @@ data class Speaker(
         val rockstar: Boolean,
         val social: List<Social>) {
 
-    fun getFullUrl(): String {
+    fun getFullThumbnailUrl(): String {
         return "http://swiftfest.io/img/people/${thumbnailUrl}"
     }
 

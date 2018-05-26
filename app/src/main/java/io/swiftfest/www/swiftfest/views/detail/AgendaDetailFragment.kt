@@ -97,31 +97,8 @@ class AgendaDetailFragment : Fragment() {
 
         populateSpeakersInformation(scheduleRowItem)
     }
-//
-//    val dataListener: ValueEventListener = object : ValueEventListener {
-//        override fun onDataChange(dataSnapshot: DataSnapshot) {
-//            for (speakerSnapshot in dataSnapshot.children) {
-//                val speaker = speakerSnapshot.getValue(EventSpeaker::class.java)
-//                if (speaker != null) {
-//                    eventSpeakers.put(speaker.name, speaker)
-//
-//                    if (scheduleRowItem.primarySpeakerName == speaker.name) {
-//                        scheduleDetail = speaker.toScheduleDetail(scheduleRowItem)
-//                        showAgendaDetail(scheduleDetail!!)
-//                    }
-//                }
-//
-//            }
-//
-//        }
-//
-//        override fun onCancelled(databaseError: DatabaseError) {
-//            Log.e(javaClass.canonicalName, "detailQuery:onCancelled", databaseError.toException())
-//        }
-//    }
 
     private fun fetchAgendaDetailData() {
-        // TODO: fetch agenda detail (speaker information)
         scheduleDetail = ScheduleDetail(scheduleRowItem)
         val primarySpeaker = dataProvider.speakers.get(scheduleRowItem.primarySpeakerId)
         scheduleDetail.speakerBio = primarySpeaker.bio ?: ""

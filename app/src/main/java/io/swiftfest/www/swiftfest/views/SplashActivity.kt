@@ -28,10 +28,12 @@ class SplashActivity : AppCompatActivity() {
             val scheduleTask = async { DataProvider.instance.loadSchedules(application) }
             val speakerTask = async { DataProvider.instance.loadSpeakers(application) }
             val volunteerTask = async { DataProvider.instance.loadVolunteers(application) }
+            val faqTask = async { DataProvider.instance.loadFaqs(application) }
             sessionTask.await()
             scheduleTask.await()
             speakerTask.await()
             volunteerTask.await()
+            faqTask.await()
             launch(UI) {
                 fadeImage()
             }

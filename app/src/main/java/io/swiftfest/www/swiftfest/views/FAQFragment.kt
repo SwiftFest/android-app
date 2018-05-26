@@ -14,6 +14,7 @@ import io.swiftfest.www.swiftfest.data.model.FaqItem
 import io.swiftfest.www.swiftfest.views.faq.FaqAdapterItem
 import io.swiftfest.www.swiftfest.views.faq.FaqAdapterItemHeader
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import io.swiftfest.www.swiftfest.data.DataProvider
 import kotlinx.android.synthetic.main.faq_fragment.faq_recycler
 import java.util.ArrayList
 import java.util.HashMap
@@ -22,6 +23,7 @@ import java.util.HashMap
 class FAQFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 
     private lateinit var headerAdapter: FlexibleAdapter<FaqAdapterItem>
+    private val dataProvider = DataProvider.instance
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -31,34 +33,7 @@ class FAQFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fetchFAQData()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-//    val dataListener: ValueEventListener = object : ValueEventListener {
-//        override fun onDataChange(dataSnapshot: DataSnapshot) {
-//            val rows = ArrayList<FaqEvent>()
-//            for (faqSnapshot in dataSnapshot.children) {
-//                val data = faqSnapshot.getValue(FaqEvent::class.java)
-//                if (data != null) {
-//                    rows.add(data)
-//                }
-//            }
-//
-//            val faqList = rows.toList()
-//            setupHeaderAdapter(faqList)
-//        }
-//
-//        override fun onCancelled(databaseError: DatabaseError) {
-//            Log.e(javaClass.canonicalName, "onCancelled", databaseError.toException())
-//        }
-//    }
-
-    private fun fetchFAQData() {
-        // TODO: fetch FAQ data.
+        setupHeaderAdapter(dataProvider.faqs)
     }
 
     private fun setupHeaderAdapter(faqs: List<FaqItem>) {

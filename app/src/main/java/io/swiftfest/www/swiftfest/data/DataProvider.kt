@@ -19,6 +19,7 @@ class DataProvider private constructor() {
     lateinit var sessions: List<Session>
     lateinit var schedules: List<Schedule>
     lateinit var volunteers: List<Volunteer>
+    lateinit var faqs: List<FaqItem>
 
     private object Holder {
         val INSTANCE = DataProvider()
@@ -46,6 +47,8 @@ class DataProvider private constructor() {
         }
 
         try {
+            val repl = "{\"name\":\"twitter\",\"link\":\"https://twitter.com/thedevme\"}"
+            data = data.replace(repl, "[${repl}]")
             speakers = Gson().fromJson<List<Speaker>>(data, speakerListType)
         } catch (err: Exception) {
             e("parseSpeakers", err.toString())
@@ -119,6 +122,11 @@ class DataProvider private constructor() {
         }
     }
 
+    fun loadFaqs(context: Context) {
+        val faqListType = object : TypeToken<List<FaqItem>>() {}.type
+        faqs = Gson().fromJson<List<FaqItem>>(loadResourceFile(context, R.raw.faq), faqListType)
+    }
+
     private lateinit var speakerMap: Map<Int, Speaker>
 
     private fun setupSpeakerMap() {
@@ -145,7 +153,7 @@ class DataProvider private constructor() {
             scheduleRow.speakerNames = sessionSpeakers.map { it.name }
             scheduleRow.primarySpeakerName = scheduleRow.speakerNames.get(0)
             scheduleRow.primarySpeakerId = scheduleRow.speakerIds.get(0)
-            scheduleRow.photoUrlMap = sessionSpeakers.map { it.name to it.getFullUrl() }.toMap()
+            scheduleRow.photoUrlMap = sessionSpeakers.map { it.name to it.getFullThumbnailUrl() }.toMap()
             scheduleRow.speakerNameToOrgName = sessionSpeakers.map { it.name to it.company }.toMap()
         }
         scheduleRow.date = sessionDate

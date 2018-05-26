@@ -31,7 +31,7 @@ class SpeakerAdapterItem internal constructor(val itemData: Speaker) :
         val context = holder.name.context
 
         Glide.with(context)
-                .load(itemData.getFullUrl())
+                .load(itemData.getFullThumbnailUrl())
                 .transform(CircleTransform(context))
                 .placeholder(R.drawable.emo_im_cool)
                 .crossFade()

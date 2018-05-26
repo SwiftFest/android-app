@@ -38,7 +38,7 @@ class VolunteerAdapterItem internal constructor(val itemData: Volunteer) :
         val context = holder.name.context
 
         Glide.with(context)
-                .load(itemData.thumbnailUrl)
+                .load(itemData.getFullThumbnailUrl())
                 .transform(CircleTransform(context))
                 .placeholder(R.drawable.emo_im_cool)
                 .crossFade()
