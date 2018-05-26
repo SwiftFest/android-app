@@ -36,6 +36,13 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="IconBubble">
+        <item name="android:paddingEnd">@dimen/def_padding</item>
+        <item name="android:paddingLeft">@dimen/def_padding</item>
+        <item name="android:paddingRight">@dimen/def_padding</item>
+        <item name="android:paddingStart">@dimen/def_padding</item>
+    </style>
+
     <style name="ThemeOverlay.AppCompat.navTheme">
 
         <!-- Color of text and icon when SELECTED -->

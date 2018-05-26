@@ -9,7 +9,7 @@ data class Speaker(
         val bio: String?,
         val thumbnailUrl: String,
         val rockstar: Boolean,
-        val social: List<Social>) {
+        val social: List<Social>?) {
 
     fun getFullThumbnailUrl(): String {
         return "http://swiftfest.io/img/people/${thumbnailUrl}"
@@ -17,7 +17,10 @@ data class Speaker(
 
     val socialProfiles: Map<String, String>
         get() {
-            return social.map { it.name to it.link }.toMap()
+            if (social != null) {
+                return social.map { it.name to it.link }.toMap()
+            }
+            return mapOf()
         }
 
     companion object {

@@ -127,7 +127,7 @@ class DataProvider private constructor() {
         faqs = Gson().fromJson<List<FaqItem>>(loadResourceFile(context, R.raw.faq), faqListType)
     }
 
-    private lateinit var speakerMap: Map<Int, Speaker>
+    lateinit var speakerMap: Map<Int, Speaker>
 
     private fun setupSpeakerMap() {
         speakerMap = speakers.map { it.id to it }.toMap()

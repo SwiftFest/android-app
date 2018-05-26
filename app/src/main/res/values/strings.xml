@@ -44,4 +44,12 @@
     <string name="swiftfest_twitter_handle">theswiftfest</string>
     <string name="no_bookmarked_items">No talks added to My Schedule\nfor this day</string>
     <string name="no_company_provided">No Company Provided</string>
+
+    <string name="about_swiftfest">
+        <![CDATA[
+            <div class="row about-details"><h5>Conference</h5> <hr/><br/><p></p><p><strong>SwiftFest</strong> is a different way to experience <strong>iOS development</strong> that brings together engineers, architects, midnight coders, students, etc. in a highly social and vibrant environment entirely focused on <strong>Swift</strong>. The most community-driven Swift conference is happening for the first time in <strong>Boston</strong> – <strong>June 18–19</strong>, 2018.</p>
+            <p></p>
+        ]]>
+    </string>
+
 </resources>

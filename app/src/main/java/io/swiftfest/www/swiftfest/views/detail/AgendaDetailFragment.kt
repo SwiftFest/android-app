@@ -43,7 +43,6 @@ class AgendaDetailFragment : Fragment() {
 
     private lateinit var scheduleRowItem: ScheduleRow
     private lateinit var scheduleDetail: ScheduleDetail
-    private val eventSpeakers = HashMap<String, Speaker>()
 
     private val userAgendaRepo: UserAgendaRepo
         get() = UserAgendaRepo.getInstance(fab_agenda_detail_bookmark.context)
@@ -75,24 +74,22 @@ class AgendaDetailFragment : Fragment() {
 
         fab_agenda_detail_bookmark.setOnClickListener({
 
-            if (scheduleDetail != null) {
-                val nextBookmarkStatus = !userAgendaRepo.isSessionBookmarked(scheduleDetail!!.id)
-                userAgendaRepo.bookmarkSession(scheduleDetail!!.id, nextBookmarkStatus)
-                val context = tv_agenda_detail_title.context
-                if (nextBookmarkStatus) {
-                    NotificationUtils(context).scheduleMySessionNotifications()
-                } else {
-                    NotificationUtils(context).cancelNotificationAlarm(scheduleRowItem.id)
-                }
-
-                Snackbar.make(agendaDetailView,
-                        if (nextBookmarkStatus)
-                            getString(R.string.saved_agenda_item)
-                        else getString(R.string.removed_agenda_item),
-                        Snackbar.LENGTH_SHORT).show()
-
-                showBookmarkStatus(scheduleDetail!!)
+            val nextBookmarkStatus = !userAgendaRepo.isSessionBookmarked(scheduleDetail.id)
+            userAgendaRepo.bookmarkSession(scheduleDetail.id, nextBookmarkStatus)
+            val context = tv_agenda_detail_title.context
+            if (nextBookmarkStatus) {
+                NotificationUtils(context).scheduleMySessionNotifications()
+            } else {
+                NotificationUtils(context).cancelNotificationAlarm(scheduleRowItem.id)
             }
+
+            Snackbar.make(agendaDetailView,
+                    if (nextBookmarkStatus)
+                        getString(R.string.saved_agenda_item)
+                    else getString(R.string.removed_agenda_item),
+                    Snackbar.LENGTH_SHORT).show()
+
+            showBookmarkStatus(scheduleDetail)
         })
 
         populateSpeakersInformation(scheduleRowItem)
@@ -109,10 +106,6 @@ class AgendaDetailFragment : Fragment() {
         showAgendaDetail(scheduleDetail)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     private fun populateSpeakersInformation(itemData: ScheduleRow) = when {
         itemData.speakerNames.isEmpty() -> {
             tv_agenda_detail_speaker_name.visibility = View.GONE
@@ -125,10 +118,10 @@ class AgendaDetailFragment : Fragment() {
             val offsetImgView = resources.getDimension(R.dimen.imgv_speaker_offset).toInt()
             val defaultLeftMargin = resources.getDimension(R.dimen.def_margin).toInt()
 
-            itemData.speakerNames.forEach { speakerName ->
+            itemData.speakerNames.mapIndexed { index, speakerName ->
                 val orgName = itemData.speakerNameToOrgName[speakerName]
                 // append company name to speaker name
-                speakerNames += "${speakerName} - ${orgName?:""}"
+                speakerNames += "${speakerName} - ${orgName ?: ""}"
 
                 if (itemData.speakerNames.size > 1) {
                     tv_agenda_detail_speaker_title.text = getString(string.header_speakers)
@@ -167,7 +160,7 @@ class AgendaDetailFragment : Fragment() {
                         .into(tempImg)
 
                 tempImg.setOnClickListener { _ ->
-                    val eventSpeaker = eventSpeakers[speakerName]
+                    val eventSpeaker = dataProvider.speakerMap.get(itemData.speakerIds[index])
                     val arguments = Bundle()
 
                     arguments.putString(Speaker.SPEAKER_ITEM_ROW, gson.toJson(eventSpeaker, Speaker::class.java))

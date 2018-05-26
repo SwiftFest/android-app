@@ -28,12 +28,24 @@ class SpeakerDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val itemData = gson.fromJson(arguments!!.getString(Speaker.SPEAKER_ITEM_ROW), Speaker::class.java)
+        val speakerRow = arguments!!.getString(Speaker.SPEAKER_ITEM_ROW)
+        val itemData = gson.fromJson(speakerRow, Speaker::class.java)
         populateView(itemData)
 
         if (activity is MainActivity) {
             val mainActivity = activity as MainActivity
             mainActivity.uncheckAllMenuItems()
+        }
+    }
+
+    private fun loadHandle(itemData: Speaker, key: String, view: View) {
+        val handle = itemData.socialProfiles.get(key)?:""
+        if (!handle.isEmpty()) {
+            view.setOnClickListener({
+                activity?.loadUriInCustomTab(String.format("%s", handle))
+            })
+        } else {
+            view.visibility = View.GONE
         }
     }
 
@@ -55,24 +67,10 @@ class SpeakerDetailFragment : Fragment() {
 
         tv_speaker_detail_description.movementMethod = LinkMovementMethod.getInstance()
 
-        val twitterHandle = itemData.socialProfiles.get("twitter")?:""
-        if (!twitterHandle.isEmpty()) {
-            imgv_twitter.setOnClickListener({
-                activity?.loadUriInCustomTab(String.format("%s%s", resources.getString(R.string.twitter_link), twitterHandle))
-            })
-        } else {
-            imgv_twitter.visibility = View.GONE
-        }
-
-
-        val linkedinHandle = itemData.socialProfiles.get("linkedIn")?:""
-        if (!linkedinHandle.isEmpty()) {
-            imgv_linkedin.setOnClickListener({
-                activity?.loadUriInCustomTab(String.format("%s%s", resources.getString(R.string.linkedin_profile_link), linkedinHandle))
-            })
-        } else {
-            imgv_linkedin.visibility = View.GONE
-        }
+        loadHandle(itemData, "twitter", imgv_twitter)
+        loadHandle(itemData, "facebook", imgv_facebook)
+        loadHandle(itemData, "linkedin", imgv_linkedin)
+        loadHandle(itemData, "site", imgv_site)
 
         Glide.with(activity)
                 .load(itemData.getFullThumbnailUrl())
