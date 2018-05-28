@@ -56,8 +56,8 @@ class AgendaDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        scheduleRowItem = gson.fromJson(arguments!!.getString(Constants.SCHEDULE_ITEM_ROW), ScheduleRow::class.java)
+        val scheduleRowString = arguments!!.getString(Constants.SCHEDULE_ITEM_ROW)
+        scheduleRowItem = gson.fromJson(scheduleRowString, ScheduleRow::class.java)
         fetchAgendaDetailData()
         populateView()
 
@@ -97,11 +97,13 @@ class AgendaDetailFragment : Fragment() {
 
     private fun fetchAgendaDetailData() {
         scheduleDetail = ScheduleDetail(scheduleRowItem)
-        val primarySpeaker = dataProvider.speakers.get(scheduleRowItem.primarySpeakerId)
-        scheduleDetail.speakerBio = primarySpeaker.bio ?: ""
-        scheduleDetail.facebook = primarySpeaker.socialProfiles.get("facebook") ?: ""
-        scheduleDetail.linkedIn = primarySpeaker.socialProfiles.get("linkedin") ?: ""
-        scheduleDetail.twitter = primarySpeaker.socialProfiles.get("twitter") ?: ""
+        val primarySpeaker = dataProvider.speakerMap.get(scheduleRowItem.primarySpeakerId)
+        if (primarySpeaker != null) {
+            scheduleDetail.speakerBio = primarySpeaker.bio ?: ""
+            scheduleDetail.facebook = primarySpeaker.socialProfiles.get("facebook") ?: ""
+            scheduleDetail.linkedIn = primarySpeaker.socialProfiles.get("linkedin") ?: ""
+            scheduleDetail.twitter = primarySpeaker.socialProfiles.get("twitter") ?: ""
+        }
 
         showAgendaDetail(scheduleDetail)
     }

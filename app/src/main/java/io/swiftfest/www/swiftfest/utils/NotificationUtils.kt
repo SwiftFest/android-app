@@ -17,6 +17,7 @@ import android.os.Build.VERSION_CODES
 import android.support.v4.app.NotificationCompat
 import android.text.TextUtils
 import io.swiftfest.www.swiftfest.R
+import io.swiftfest.www.swiftfest.data.DataProvider
 import io.swiftfest.www.swiftfest.data.UserAgendaRepo
 import io.swiftfest.www.swiftfest.receivers.BootReceiver
 import io.swiftfest.www.swiftfest.receivers.NotificationPublisher
@@ -26,6 +27,8 @@ import org.threeten.bp.ZoneId
 
 
 class NotificationUtils(context: Context) : ContextWrapper(context) {
+
+    val dataProvider = DataProvider.instance
 
     init {
         createChannels()
@@ -78,8 +81,8 @@ class NotificationUtils(context: Context) : ContextWrapper(context) {
     }
 
     fun scheduleMySessionNotifications() {
-        val context = this
-        val userRepo = UserAgendaRepo.getInstance(context)
+//        val context = this
+//        val userRepo = UserAgendaRepo.getInstance(context)
 //        firebaseHelper.eventDatabase.addListenerForSingleValueEvent(object : ValueEventListener {
 //            override fun onDataChange(dataSnapshot: DataSnapshot) {
 //                var hasBookmarkedEvents = false
