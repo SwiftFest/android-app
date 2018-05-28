@@ -12,6 +12,7 @@ import io.swiftfest.www.swiftfest.MyApplication.Companion.SPEAKER_URL
 import io.swiftfest.www.swiftfest.MyApplication.Companion.VOLUNTEER_URL
 import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.data.model.*
+import java.util.*
 
 class DataProvider private constructor() {
 
@@ -47,12 +48,18 @@ class DataProvider private constructor() {
         }
 
         try {
-            val repl = "{\"name\":\"twitter\",\"link\":\"https://twitter.com/thedevme\"}"
-            data = data.replace(repl, "[${repl}]")
             speakers = Gson().fromJson<List<Speaker>>(data, speakerListType)
         } catch (err: Exception) {
             e("parseSpeakers", err.toString())
-            speakers = Gson().fromJson<List<Speaker>>(loadResourceFile(context, R.raw.speakers), speakerListType)
+            // TODO: known parsing bug - check both data versions for now in case updated in prod.
+            try {
+                val repl = "{\"name\":\"twitter\",\"link\":\"https://twitter.com/thedevme\"}"
+                data = data.replace(repl, "[${repl}]")
+                speakers = Gson().fromJson<List<Speaker>>(data, speakerListType)
+            } catch (err2: Exception) {
+                e("parseSpeakers", err2.toString())
+                speakers = Gson().fromJson<List<Speaker>>(loadResourceFile(context, R.raw.speakers), speakerListType)
+            }
         }
 
         setupSpeakerMap()
@@ -165,7 +172,7 @@ class DataProvider private constructor() {
         scheduleRow.id = sessionId.toString()
         scheduleRow.talkDescription = session.description ?: "No description."
         scheduleRow.talkTitle = session.title
-        scheduleRow.isOver = false // TODO: implement isOver based on current time relative to end time.
+        scheduleRow.isOver = Date().after(scheduleRow.getEndDate())
 //        scheduleRow.trackSortOrder // TODO: assign
         return scheduleRow
     }

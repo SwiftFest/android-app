@@ -2,7 +2,6 @@ package io.swiftfest.www.swiftfest.views.agenda
 
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -16,8 +15,6 @@ import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import io.swiftfest.www.swiftfest.data.model.ScheduleRow
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -35,22 +32,7 @@ class ScheduleAdapterItem internal constructor(val itemData: ScheduleRow,
         get() = itemData.talkTitle
 
     init {
-        val extension: String
-        val startTimeInt = itemData.startTime.split(":").get(0).toInt()
-        if (startTimeInt > 6) {
-            extension = "am"
-        } else {
-            extension = "pm"
-        }
-        val dateTimeString = "${itemData.date} ${itemData.startTime} ${extension}"
-//        val format = SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.US)
-        val format = SimpleDateFormat("yyyy-MM-dd h:mm a", Locale.US)
-        try {
-            startTime = format.parse(dateTimeString)
-        } catch (e: ParseException) {
-            Log.e("ScheduleAdapterItem", "Parse error: $e for $dateTimeString")
-        }
-
+        startTime = itemData.getStartDate()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -106,7 +88,10 @@ class ScheduleAdapterItem internal constructor(val itemData: ScheduleRow,
             holder.time.visibility = View.VISIBLE
 
             holder.title.text = itemData.talkTitle
-            holder.time.text = String.format("%s - %s", itemData.startTime, itemData.endTime)
+            holder.time.text = String.format("%s - %s",
+                    itemData.getReadableTime(itemData.startTime),
+                    itemData.getReadableTime(itemData.endTime)
+            )
             holder.speaker.text = itemData.speakerNames.joinToString(separator = ", ")
             holder.room.text = itemData.room
 
