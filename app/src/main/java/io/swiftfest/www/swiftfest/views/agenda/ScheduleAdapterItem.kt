@@ -24,16 +24,10 @@ class ScheduleAdapterItem internal constructor(val itemData: ScheduleRow,
                                                header: ScheduleAdapterItemHeader) :
         AbstractSectionableItem<ScheduleAdapterItem.ViewHolder, ScheduleAdapterItemHeader>(header) {
 
-    private var startTime: Date = Date()
-
     var roomSortOrder = itemData.trackSortOrder
 
     val title: String
         get() = itemData.talkTitle
-
-    init {
-        startTime = itemData.getStartDate()
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other is ScheduleAdapterItem) {
@@ -89,9 +83,7 @@ class ScheduleAdapterItem internal constructor(val itemData: ScheduleRow,
 
             holder.title.text = itemData.talkTitle
             holder.time.text = String.format("%s - %s",
-                    itemData.getReadableTime(itemData.startTime),
-                    itemData.getReadableTime(itemData.endTime)
-            )
+                    itemData.getReadableStartTime(), itemData.getReadableEndTime())
             holder.speaker.text = itemData.speakerNames.joinToString(separator = ", ")
             holder.room.text = itemData.room
 

@@ -1,6 +1,8 @@
 package io.swiftfest.www.swiftfest.data.model
 
 import android.util.Log
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,44 +27,24 @@ data class ScheduleRow(
         var primarySpeakerId: Int = 0
 ) {
 
-    fun hasSpeaker(): Boolean = speakerNames.isNotEmpty()
+    companion object {
+        val ISO_LENGTH = "2018-06-18T11:00:00".length
 
-    fun hasMultipleSpeakers(): Boolean = speakerNames.size > 1
-
-    fun getSpeakerString(): String? = speakerNames.joinToString(", ")
-
-    private fun parseDateTime(timeString: String): Date {
-        val timeWithExtension = getReadableTime(timeString)
-        val dateTimeString = "${date} ${timeWithExtension}"
-//        val format = SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.US)
-        val format = SimpleDateFormat("yyyy-MM-dd h:mm a", Locale.US)
-        var startDate: Date
-        try {
-            startDate = format.parse(dateTimeString)
-        } catch (e: ParseException) {
-            Log.e("ScheduleAdapterItem", "Parse error: $e for $dateTimeString")
-            val altFormat = SimpleDateFormat("yyyy-MM-dd hh:mm", Locale.US)
-            startDate = altFormat.parse("${date} ${timeString}")
+        @JvmStatic
+        fun getReadableTime(timeString: String): String {
+            val t = LocalDateTime.parse(timeString.substring(0, ISO_LENGTH))
+            val formatter = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
+            return t.format(formatter)
         }
-        return startDate
     }
 
-    fun getReadableTime(timeString: String): Any {
-        val extension: String
-        val startTimeInt = timeString.split(":").get(0).toInt()
-        if (startTimeInt > 6 && startTimeInt != 12) {
-            extension = "am"
-        } else {
-            extension = "pm"
-        }
-        return "${timeString} ${extension}"
+    fun getReadableStartTime(): String {
+        return getReadableTime(startTime)
     }
 
-    fun getStartDate(): Date {
-        return parseDateTime(startTime)
+    fun getReadableEndTime(): String {
+        return getReadableTime(endTime)
     }
 
-    fun getEndDate(): Date {
-        return parseDateTime(endTime)
-    }
+    fun getEndDate(): LocalDateTime = LocalDateTime.parse(endTime.substring(0, ISO_LENGTH))
 }

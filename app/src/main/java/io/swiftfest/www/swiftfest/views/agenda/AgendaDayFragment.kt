@@ -19,6 +19,7 @@ import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.helpers.EmptyViewHelper
 import io.swiftfest.www.swiftfest.data.DataProvider
 import io.swiftfest.www.swiftfest.data.model.Schedule
+import io.swiftfest.www.swiftfest.data.model.ScheduleRow
 import java.util.*
 
 
@@ -98,7 +99,7 @@ class AgendaDayFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     }
 
     private fun fetchScheduleData() {
-        val schedule = dataProvider.schedules.findLast { it.date == dayFilter }
+        val schedule = dataProvider.schedules.findLast { it.date.split('T')[0] == dayFilter }
         // Assume the schedule day exists.
         setupHeaderAdapter(schedule!!)
     }
@@ -106,7 +107,7 @@ class AgendaDayFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     private fun setupHeaderAdapter(schedule: Schedule) {
         val items = ArrayList<ScheduleAdapterItem>()
         for (timeSlot in schedule.timeslots) {
-            val timeDisplay = if (timeSlot.startTime.isEmpty()) "Unscheduled" else timeSlot.startTime
+            val timeDisplay = if (timeSlot.startTime.isEmpty()) "Unscheduled" else ScheduleRow.getReadableTime(timeSlot.startTime)
             for (sessionId in timeSlot.sessionIds) {
                 var header: ScheduleAdapterItemHeader? = timeHeaders[timeDisplay]
                 if (header == null) {
