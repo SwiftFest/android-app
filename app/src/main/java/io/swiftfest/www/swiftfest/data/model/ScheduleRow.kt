@@ -1,6 +1,7 @@
 package io.swiftfest.www.swiftfest.data.model
 
 import android.util.Log
+import io.swiftfest.www.swiftfest.R
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.text.ParseException
@@ -24,7 +25,8 @@ data class ScheduleRow(
         var photoUrlMap: Map<String, String> = HashMap(0),
         var isOver: Boolean = false,
         var speakerIds: List<Int> = emptyList(),
-        var primarySpeakerId: Int = 0
+        var primarySpeakerId: Int = 0,
+        var subtype: String? = ""
 ) {
 
     companion object {
@@ -37,6 +39,19 @@ data class ScheduleRow(
             return t.format(formatter)
         }
     }
+
+    fun getItemColor(): Int {
+        if (isOver) {
+            return R.color.colorGray
+        } else if (subtype == "workshop") {
+            return R.color.workshopColor
+        } else if (subtype == "presentation"){
+            // TODO: add custom color based on presentation track.
+            return R.color.colorAccent
+        }
+        return R.color.colorAccent
+    }
+
 
     fun getReadableStartTime(): String {
         return getReadableTime(startTime)

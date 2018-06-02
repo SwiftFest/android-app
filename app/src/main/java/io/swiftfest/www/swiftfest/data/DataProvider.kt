@@ -145,6 +145,7 @@ class DataProvider private constructor() {
     fun toScheduleRow(timeSlot: Timeslot, sessionId: Int, sessionDate: String): ScheduleRow {
         val session = sessionMap.get(sessionId)!!
         val scheduleRow = ScheduleRow(primarySpeakerId = 0)
+        scheduleRow.subtype = session.subtype
         scheduleRow.startTime = timeSlot.startTime
         scheduleRow.endTime = timeSlot.endTime
         // Assume that the speaker exists (error if not).

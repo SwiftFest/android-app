@@ -11,6 +11,7 @@
     <color name="colorLightGray">#e0e0e0</color>
     <color name="navItemTextColor">#484848</color>
     <color name="colorAccent">#eb8a2d</color>
+    <color name="workshopColor">#90be4e</color>
 
     <!--<color name="colorStar">#FBA13D</color>-->
     <color name="colorStar">#FF472B</color>

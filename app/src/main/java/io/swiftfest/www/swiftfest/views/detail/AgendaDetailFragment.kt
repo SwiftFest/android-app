@@ -73,6 +73,7 @@ class AgendaDetailFragment : Fragment() {
         tv_agenda_detail_title.text = scheduleRowItem.talkTitle
         tv_agenda_detail_room.text = resources.getString(R.string.str_agenda_detail_room, scheduleRowItem.room)
         tv_agenda_detail_time.text = resources.getString(R.string.str_agenda_detail_time, scheduleRowItem.getReadableStartTime(), scheduleRowItem.getReadableEndTime())
+        tv_agenda_detail_time.setTextColor(resources.getColor(R.color.white))
 
         fab_agenda_detail_bookmark.setOnClickListener({
 

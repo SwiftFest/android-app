@@ -15,7 +15,6 @@ import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import io.swiftfest.www.swiftfest.data.model.ScheduleRow
-import java.util.*
 
 /**
  * Used for displaying the schedule with sticky headers with optional day filtering
@@ -106,8 +105,11 @@ class ScheduleAdapterItem internal constructor(val itemData: ScheduleRow,
             addBackgroundRipple(holder)
         }
 
-        val availableColor = if (itemData.isOver) R.color.colorGray else R.color.colorAccent
-        holder.availableIndicator.setBackgroundColor(ContextCompat.getColor(holder.availableIndicator.context, availableColor))
+        val color = ContextCompat.getColor(
+                holder.availableIndicator.context, itemData.getItemColor())
+
+        holder.availableIndicator.setBackgroundColor(color)
+        holder.time.setTextColor(color)
     }
 
     private fun addBackgroundRipple(holder: ViewHolder) {
