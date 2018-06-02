@@ -127,17 +127,25 @@ class AgendaDetailFragment : Fragment() {
                 // append company name to speaker name
                 speakerNames += "${speakerName} - ${orgName ?: ""}"
 
+                val speakerTitleText = StringBuilder()
+                if (itemData.subtype == "workshop") {
+                    speakerTitleText.append("Workshop ")
+                }
+
                 if (itemData.speakerNames.size > 1) {
-                    tv_agenda_detail_speaker_title.text = getString(string.header_speakers)
+                    speakerTitleText.append(getString(string.header_speakers))
 
                     // if the current speaker name is not the last then add a line break
                     if (speakerName != itemData.speakerNames.last()) {
                         speakerNames += "\n"
                     }
                 } else {
-                    tv_agenda_detail_speaker_title.text = getString(string.header_speaker)
+                    speakerTitleText.append(getString(string.header_speaker))
                 }
 
+                tv_agenda_detail_speaker_title.text = speakerTitleText.toString()
+                val color = ContextCompat.getColor(activity as Context, itemData.getItemColor())
+                tv_agenda_detail_speaker_title.setTextColor(color)
 
                 // Add an imageview to the relative layout
                 val tempImg = ImageView(activity)
