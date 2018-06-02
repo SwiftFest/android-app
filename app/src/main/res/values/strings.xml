@@ -51,5 +51,7 @@
             <p></p>
         ]]>
     </string>
+    <string name="error_loading_schedule">Error loading schedule</string>
+    <string name="fetching_data">Fetching latest data...</string>
 
 </resources>

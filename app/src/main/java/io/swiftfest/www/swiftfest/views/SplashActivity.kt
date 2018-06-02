@@ -13,27 +13,19 @@ import io.swiftfest.www.swiftfest.data.DataProvider
 import kotlinx.android.synthetic.main.splash_activity.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 
 
 class SplashActivity : AppCompatActivity() {
+
+    private val dataProvider = DataProvider.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_activity)
         spin_kit.visibility = View.VISIBLE
         launch(CommonPool) {
-            val sessionTask = async { DataProvider.instance.loadSessions(application) }
-            val scheduleTask = async { DataProvider.instance.loadSchedules(application) }
-            val speakerTask = async { DataProvider.instance.loadSpeakers(application) }
-            val volunteerTask = async { DataProvider.instance.loadVolunteers(application) }
-            val faqTask = async { DataProvider.instance.loadFaqs(application) }
-            sessionTask.await()
-            scheduleTask.await()
-            speakerTask.await()
-            volunteerTask.await()
-            faqTask.await()
+            dataProvider.fetchAppData(application)
             launch(UI) {
                 fadeImage()
             }

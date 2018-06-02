@@ -1,5 +1,6 @@
 package io.swiftfest.www.swiftfest.data
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.util.Log.e
 import com.github.kittinunf.fuel.httpGet
@@ -12,6 +13,10 @@ import io.swiftfest.www.swiftfest.MyApplication.Companion.SPEAKER_URL
 import io.swiftfest.www.swiftfest.MyApplication.Companion.VOLUNTEER_URL
 import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.data.model.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.threeten.bp.LocalDateTime
 
 class DataProvider private constructor() {
@@ -21,6 +26,9 @@ class DataProvider private constructor() {
     lateinit var schedules: List<Schedule>
     lateinit var volunteers: List<Volunteer>
     lateinit var faqs: List<FaqItem>
+
+    lateinit var speakerMap: Map<Int, Speaker>
+    lateinit var sessionMap: Map<Int, Session>
 
     private object Holder {
         val INSTANCE = DataProvider()
@@ -126,13 +134,9 @@ class DataProvider private constructor() {
         faqs = Gson().fromJson<List<FaqItem>>(loadResourceFile(context, R.raw.faq), faqListType)
     }
 
-    lateinit var speakerMap: Map<Int, Speaker>
-
     private fun setupSpeakerMap() {
         speakerMap = speakers.map { it.id to it }.toMap()
     }
-
-    lateinit var sessionMap: Map<Int, Session>
 
     private fun setupSessionMap() {
         sessionMap = sessions.map { it.id to it }.toMap()
@@ -164,13 +168,45 @@ class DataProvider private constructor() {
         scheduleRow.id = sessionId.toString()
         scheduleRow.talkDescription = session.description ?: "No description."
         scheduleRow.talkTitle = session.title
-        val now =LocalDateTime.now()
+        val now = LocalDateTime.now()
         scheduleRow.isOver = now.isAfter(scheduleRow.getEndDate())
 //        scheduleRow.trackSortOrder // TODO: assign
         return scheduleRow
     }
 
+    suspend fun fetchAppData(context: Context) {
+        val sessionTask = async { instance.loadSessions(context) }
+        val scheduleTask = async { instance.loadSchedules(context) }
+        val speakerTask = async { instance.loadSpeakers(context) }
+        val volunteerTask = async { instance.loadVolunteers(context) }
+        val faqTask = async { instance.loadFaqs(context) }
+        sessionTask.await()
+        scheduleTask.await()
+        speakerTask.await()
+        volunteerTask.await()
+        faqTask.await()
+    }
+
     companion object {
         val instance: DataProvider by lazy { Holder.INSTANCE }
     }
+}
+
+fun <K, V> Map<K, V>.getOrRefetchData(context: Context, key: K): V? {
+    if (this.containsKey(key)) {
+        return this.get(key)
+    }
+
+    // Refetch data from server.
+    val pDialog = ProgressDialog(context);
+    pDialog.setMessage(context.getString(R.string.fetching_data));
+    pDialog.show()
+    launch(CommonPool) {
+        DataProvider.instance.fetchAppData(context)
+        launch(UI) {
+            pDialog.dismiss()
+        }
+    }
+
+    return null
 }

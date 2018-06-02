@@ -1,5 +1,6 @@
 package io.swiftfest.www.swiftfest.views.detail
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -21,6 +22,7 @@ import io.swiftfest.www.swiftfest.utils.Constants
 import io.swiftfest.www.swiftfest.data.model.ScheduleDetail
 import io.swiftfest.www.swiftfest.data.model.ScheduleRow
 import io.swiftfest.www.swiftfest.data.UserAgendaRepo
+import io.swiftfest.www.swiftfest.data.getOrRefetchData
 import io.swiftfest.www.swiftfest.utils.NotificationUtils
 import io.swiftfest.www.swiftfest.utils.ServiceLocator.Companion.gson
 import io.swiftfest.www.swiftfest.utils.getHtmlFormattedSpanned
@@ -97,14 +99,13 @@ class AgendaDetailFragment : Fragment() {
 
     private fun fetchAgendaDetailData() {
         scheduleDetail = ScheduleDetail(scheduleRowItem)
-        val primarySpeaker = dataProvider.speakerMap.get(scheduleRowItem.primarySpeakerId)
-        if (primarySpeaker != null) {
-            scheduleDetail.speakerBio = primarySpeaker.bio ?: ""
-            scheduleDetail.facebook = primarySpeaker.socialProfiles.get("facebook") ?: ""
-            scheduleDetail.linkedIn = primarySpeaker.socialProfiles.get("linkedin") ?: ""
-            scheduleDetail.twitter = primarySpeaker.socialProfiles.get("twitter") ?: ""
-        }
+        val primarySpeaker = dataProvider.speakerMap.getOrRefetchData(
+                activity as Context, scheduleRowItem.primarySpeakerId) ?: return
 
+        scheduleDetail.speakerBio = primarySpeaker.bio ?: ""
+        scheduleDetail.facebook = primarySpeaker.socialProfiles.get("facebook") ?: ""
+        scheduleDetail.linkedIn = primarySpeaker.socialProfiles.get("linkedin") ?: ""
+        scheduleDetail.twitter = primarySpeaker.socialProfiles.get("twitter") ?: ""
         showAgendaDetail(scheduleDetail)
     }
 
@@ -162,19 +163,21 @@ class AgendaDetailFragment : Fragment() {
                         .into(tempImg)
 
                 tempImg.setOnClickListener { _ ->
-                    val eventSpeaker = dataProvider.speakerMap.get(itemData.speakerIds[index])
-                    val arguments = Bundle()
+                    val eventSpeaker = dataProvider.speakerMap.getOrRefetchData(
+                            activity as Context, itemData.speakerIds[index])
+                    if (eventSpeaker != null) {
+                        val arguments = Bundle()
+                        arguments.putString(Speaker.SPEAKER_ITEM_ROW, gson.toJson(eventSpeaker, Speaker::class.java))
 
-                    arguments.putString(Speaker.SPEAKER_ITEM_ROW, gson.toJson(eventSpeaker, Speaker::class.java))
+                        val speakerDetailFragment = SpeakerDetailFragment()
+                        speakerDetailFragment.arguments = arguments
 
-                    val speakerDetailFragment = SpeakerDetailFragment()
-                    speakerDetailFragment.arguments = arguments
-
-                    val fragmentManager = activity?.supportFragmentManager
-                    fragmentManager?.beginTransaction()
-                            ?.add(R.id.fragment_container, speakerDetailFragment)
-                            ?.addToBackStack(null)
-                            ?.commit()
+                        val fragmentManager = activity?.supportFragmentManager
+                        fragmentManager?.beginTransaction()
+                                ?.add(R.id.fragment_container, speakerDetailFragment)
+                                ?.addToBackStack(null)
+                                ?.commit()
+                    }
                 }
             }
             tv_agenda_detail_speaker_name.text = speakerNames

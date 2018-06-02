@@ -27,8 +27,7 @@
 
         <!-- Main Activity -->
         <activity
-                android:name=".views.MainActivity"
-                android:screenOrientation="portrait"/>
+                android:name=".views.MainActivity"/>
 
 
         <!-- Broadcast Receivers -->

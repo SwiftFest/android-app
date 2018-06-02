@@ -5,7 +5,7 @@
     "surname": "Natili",
     "title": "Idea maker, team lead",
     "thumbnailUrl": "GiorgioNatili.jpg",
-    "team": true,
+    "type": "team",
     "social": [
       {
         "name": "twitter",
@@ -23,7 +23,7 @@
     "surname": "Alberto",
     "title": "Mobile developer",
     "thumbnailUrl": "LuisAlberto.jpg",
-    "volunteer": true,
+    "type": "volunteer",
     "social": [
       {
         "name": "github",
@@ -41,7 +41,7 @@
     "surname": "Bruce",
     "title": "Open space coordinator",
     "thumbnailUrl": "PaulBruce.jpg",
-    "volunteer": true,
+    "type": "volunteer",
     "social": [
       {
         "name": "twitter",
@@ -54,12 +54,26 @@
     ]
   },
   {
+    "id": "15",
+    "name": "Chris",
+    "surname": "Buonocore",
+    "title": "Software Engineer",
+    "thumbnailUrl": "ChrisBuonocore.jpg",
+    "type": "volunteer",
+    "social": [
+      {
+        "name": "linkedin",
+        "link": "https://www.linkedin.com/in/chrisbuonocore/"
+      }
+    ]
+  },
+  {
     "id": "0",
     "name": "Matt",
     "surname": "Dias",
     "title": "Community lead",
     "thumbnailUrl": "MattDias.jpg",
-    "team": true,
+    "type": "team",
     "social": [
       {
         "name": "twitter",
@@ -77,7 +91,7 @@
     "surname": "Eisenberg",
     "title": "Tech lead",
     "thumbnailUrl": "ZevEisenberg.jpg",
-    "team": true,
+    "type": "team",
     "social": [
       {
         "name": "twitter",
@@ -94,12 +108,42 @@
     ]
   },
   {
+    "id": "9",
+    "name": "Andyy",
+    "surname": "Hope",
+    "title": "Software Engineer",
+    "company": "Facebook",
+    "bio": "Andyy is a Software Engineer at Facebook and is also the founder of [Wu-Tang Clang](http://wutangclang.org/) which is a learn-to-code fundraiser, keeps a technical blog of Swift on [Medium](http://medium.com/@AndyyHope). Previously he was the organiser of [Playgrounds Conference](http://playgroundscon.com/).\n",
+    "thumbnailUrl": "AndyyHope.jpg",
+    "type": "mc",
+    "social": [
+      {
+        "name": "twitter",
+        "link": "https://twitter.com/AndyyHope"
+      }
+    ]
+  },
+  {
+    "id": "16",
+    "name": "Alexandrea",
+    "surname": "Mellen",
+    "bio": "Alexandrea Mellen is a technical content marketer at callstats.io. She has developed multiple iOS applications for her company, Terrapin Computing, as well as several freelance projects.\n",
+    "thumbnailUrl": "AlexandreaMellen.jpg",
+    "type": "mc",
+    "social": [
+      {
+        "name": "twitter",
+        "link": "https://twitter.com/alexandreamel"
+      }
+    ]
+  },
+  {
     "id": "10",
     "name": "Barbara",
     "surname": "Menicucci",
     "title": "Event Manager",
     "thumbnailUrl": "BarbaraMenicucci.jpg",
-    "team": true,
+    "type": "team",
     "social": [
       {
         "name": "linkedin",
@@ -113,7 +157,7 @@
     "surname": "Monahan",
     "title": "Speakers liaison",
     "thumbnailUrl": "LucyMonahan.jpg",
-    "team": true,
+    "type": "team",
     "social": [
       {
         "name": "linkedin",
@@ -126,12 +170,29 @@
     ]
   },
   {
+    "id": "10",
+    "name": "Garric",
+    "surname": "Nahapetian",
+    "title": "iOS Engineer",
+    "company": "Tinder",
+    "bio": "Garric is an iOS Engineer at Tinder as well as the host of The SwiftCoders Podcast and the founder of the Learn Swift {CITY} group of meet ups.\n",
+    "thumbnailUrl": "GarricNahapetian.jpg",
+    "rockstar": false,
+    "type": "mc",
+    "social": [
+      {
+        "name": "twitter",
+        "link": "https://twitter.com/garricn"
+      }
+    ]
+  },
+  {
     "id": "6",
     "name": "Sean",
     "surname": "Olszewski",
     "title": "Development lead",
     "thumbnailUrl": "SeanOlszewski.jpg",
-    "team": true,
+    "type": "team",
     "social": [
       {
         "name": "github",
@@ -145,7 +206,7 @@
     "surname": "O’Leary",
     "title": "Content lead",
     "thumbnailUrl": "JeffOLeary.jpg",
-    "team": true,
+    "type": "team",
     "social": [
       {
         "name": "github",
@@ -159,7 +220,7 @@
     "surname": "Pineda",
     "title": "Volunteers coordinator",
     "thumbnailUrl": "AndresPineda.jpg",
-    "team": true,
+    "type": "team",
     "social": [
       {
         "name": "twitter",
@@ -181,11 +242,27 @@
     "surname": "Ramirez",
     "title": "Operations Manager",
     "thumbnailUrl": "YohannaRamirez.jpg",
-    "volunteer": true,
+    "type": "volunteer",
     "social": [
       {
         "name": "linkedin",
         "link": "https://www.linkedin.com/in/yohanna-ramirez-bbba9791/"
+      }
+    ]
+  },
+  {
+    "id": "17",
+    "name": "Marcy",
+    "surname": "Regalado",
+    "title": "UX Design Lead",
+    "company": "Fidelity Investments",
+    "bio": "Marcy is a UX Design Lead at Fidelity Investments, where she currently is leading design and implementation of various innovative features for Fidelity mobile apps, wearables, website, and emerging platforms such as smart home devices. In her spare time, Marcy is a UX consultant working on the design and development of mobile apps and websites, mentorship for women in tech, sound designer and curator as a DJ, technology conference MCee, and an active Tufts alum.\n",
+    "thumbnailUrl": "MarcyRegalado.jpg",
+    "type": "mc",
+    "social": [
+      {
+        "name": "twitter",
+        "link": "https://twitter.com/marcyregalado"
       }
     ]
   },
@@ -195,7 +272,7 @@
     "surname": "Ryczek",
     "title": "Mobile Developer",
     "thumbnailUrl": "BryanRyczek.jpg",
-    "volunteer": true,
+    "type": "volunteer",
     "social": [
       {
         "name": "linkedin",
@@ -213,7 +290,7 @@
     "surname": "Shenoy",
     "title": "iOS Developer",
     "thumbnailUrl": "MythriShenoy.jpg",
-    "volunteer": true,
+    "type": "volunteer",
     "social": [
       {
         "name": "linkedin",
@@ -227,7 +304,7 @@
     "surname": "Taveras",
     "title": "Mobile Developer",
     "thumbnailUrl": "JoseTaveras.jpg",
-    "volunteer": true,
+    "type": "volunteer",
     "social": [
       {
         "name": "linkedin",
@@ -243,9 +320,9 @@
     "id": "9",
     "name": "Barbara",
     "surname": "Van",
-    "title": "Designer",
+    "title": "iOS Developer",
     "thumbnailUrl": "BarbaraVanaki.jpg",
-    "volunteer": true,
+    "type": "volunteer",
     "social": [
       {
         "name": "linkedin",

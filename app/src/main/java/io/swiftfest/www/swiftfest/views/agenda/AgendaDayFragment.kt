@@ -99,8 +99,13 @@ class AgendaDayFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     }
 
     private fun fetchScheduleData() {
-        val schedule = dataProvider.schedules.findLast { it.date.split('T')[0] == dayFilter }
-        // Assume the schedule day exists.
+        var schedule = dataProvider.schedules.find { it.date.split('T')[0] == dayFilter }
+        if (schedule == null) {
+            // Attempt to do a looser search.
+            schedule = dataProvider.schedules.find { it.date.contains(dayFilter) }
+        }
+
+        // Schedule must be non-null
         setupHeaderAdapter(schedule!!)
     }
 

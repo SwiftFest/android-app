@@ -32,7 +32,6 @@ class FAQFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupHeaderAdapter(dataProvider.faqs)
     }
 
