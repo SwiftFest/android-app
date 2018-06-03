@@ -2,7 +2,10 @@ package io.swiftfest.www.swiftfest.data
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.os.Handler
 import android.util.Log.e
+import android.widget.Toast
+import com.afollestad.materialdialogs.MaterialDialog
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.google.gson.Gson
@@ -30,6 +33,8 @@ class DataProvider private constructor() {
     lateinit var speakerMap: Map<Int, Speaker>
     lateinit var sessionMap: Map<Int, Session>
 
+    private val HTTP_TIMEOUT: Int = 5000
+
     private object Holder {
         val INSTANCE = DataProvider()
     }
@@ -42,7 +47,7 @@ class DataProvider private constructor() {
     }
 
     fun loadSpeakers(context: Context) {
-        val (request, response, result) = SPEAKER_URL.httpGet().responseString()
+        val (request, response, result) = SPEAKER_URL.httpGet().timeout(HTTP_TIMEOUT).responseString()
         val speakerListType = object : TypeToken<List<Speaker>>() {}.type
         var data = ""
         when (result) {
@@ -66,7 +71,7 @@ class DataProvider private constructor() {
     }
 
     fun loadSchedules(context: Context) {
-        val (request, response, result) = SCHEDULE_URL.httpGet().responseString()
+        val (request, response, result) = SCHEDULE_URL.httpGet().timeout(HTTP_TIMEOUT).responseString()
         val scheduleListType = object : TypeToken<List<Schedule>>() {}.type
         var data = ""
         when (result) {
@@ -87,7 +92,7 @@ class DataProvider private constructor() {
     }
 
     fun loadSessions(context: Context) {
-        val (request, response, result) = SESSION_URL.httpGet().responseString()
+        val (request, response, result) = SESSION_URL.httpGet().timeout(HTTP_TIMEOUT).responseString()
         val sessionListType = object : TypeToken<List<Session>>() {}.type
         var data = ""
         when (result) {
@@ -109,7 +114,7 @@ class DataProvider private constructor() {
     }
 
     fun loadVolunteers(context: Context) {
-        val (request, response, result) = VOLUNTEER_URL.httpGet().responseString()
+        val (request, response, result) = VOLUNTEER_URL.httpGet().timeout(HTTP_TIMEOUT).responseString()
         val volunteersListType = object : TypeToken<List<Volunteer>>() {}.type
         var data = ""
         when (result) {
@@ -176,6 +181,10 @@ class DataProvider private constructor() {
     }
 
     suspend fun fetchAppData(context: Context) {
+        val handler = Handler(context.mainLooper)
+        handler.postDelayed({
+            Toast.makeText(context, "Having trouble connecting", Toast.LENGTH_LONG).show()
+        }, 10000)
         val sessionTask = async { instance.loadSessions(context) }
         val scheduleTask = async { instance.loadSchedules(context) }
         val speakerTask = async { instance.loadSpeakers(context) }
@@ -186,6 +195,8 @@ class DataProvider private constructor() {
         speakerTask.await()
         volunteerTask.await()
         faqTask.await()
+
+        handler.removeCallbacksAndMessages(null)
     }
 
     companion object {
@@ -199,11 +210,20 @@ fun <K, V> Map<K, V>.getOrRefetchData(context: Context, key: K): V? {
     }
 
     // Refetch data from server.
-    val pDialog = ProgressDialog(context);
-    pDialog.setMessage(context.getString(R.string.fetching_data));
-    pDialog.show()
+    val pDialog = MaterialDialog.Builder(context)
+            .title("Loading...")
+            .content(R.string.fetching_data)
+            .progressIndeterminateStyle(true)
+            .progress(true, 0)
+            .show();
     launch(CommonPool) {
+        val start = System.currentTimeMillis()
         DataProvider.instance.fetchAppData(context)
+        // Make sure dialog shows for at least 1.5s.
+        val needed = 1500 - (System.currentTimeMillis() - start)
+        if (needed > 0) {
+            Thread.sleep(needed)
+        }
         launch(UI) {
             pDialog.dismiss()
         }

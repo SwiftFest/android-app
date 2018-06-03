@@ -19,6 +19,8 @@
     <string name="linkedin_profile_link">https://www.linkedin.com/company/swiftfest</string>
 
     <string name="str_agenda">Agenda</string>
+    <string name="str_agenda_detail">Agenda Detail</string>
+    <string name="str_speaker_detail">Speaker Detail</string>
     <string name="str_my_schedule">My Schedule</string>
     <string name="str_social">Social</string>
     <string name="str_faq">FAQ</string>

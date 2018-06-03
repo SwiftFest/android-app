@@ -1,6 +1,7 @@
 package io.swiftfest.www.swiftfest.views.volunteer
 
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -10,14 +11,13 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.afollestad.materialdialogs.MaterialDialog
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.data.DataProvider
 import io.swiftfest.www.swiftfest.data.model.Volunteer
 import kotlinx.android.synthetic.main.volunteer_fragment.*
-
-
 
 
 class VolunteerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
@@ -50,29 +50,31 @@ class VolunteerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         val item = volunteerAdapter.getItem(position) as VolunteerAdapterItem
         val volunteer = item.itemData
         val bodyText = StringBuilder()
-        bodyText.append(volunteer.title).append("\n---")
+        val titleText: String
+
+        if (volunteer.title.isNullOrBlank()) {
+            titleText = "Volunteer"
+        } else {
+            titleText = volunteer.title!!
+        }
+
+        bodyText.append(titleText).append("\n---")
 
         volunteer.social.map {
             bodyText.append("\n${it.name.capitalize()}:\n${it.link}\n")
         }
 
         val context = activity as Context
-        val builder: AlertDialog.Builder
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert)
-        } else {
-            builder = AlertDialog.Builder(context)
-        }
-        builder.setTitle("${volunteer.name} ${volunteer.surname}")
-                .setMessage(bodyText.toString())
-                .setIcon(R.drawable.icon)
-                .setPositiveButton(android.R.string.yes, { dialog, which ->
-                    dialog.dismiss()
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show()
 
-        return true // propagate.
+        MaterialDialog.Builder(context)
+                .title("Volunteer: ${volunteer.name} ${volunteer.surname}")
+                .content(bodyText.toString())
+                .positiveText("Ok")
+                .onPositive { dialog, which ->
+                    dialog.dismiss()
+                }
+                .show()
+        return true
     }
 
 

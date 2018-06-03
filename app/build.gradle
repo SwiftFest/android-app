@@ -8,8 +8,8 @@ android {
         applicationId "io.swiftfest.www.swiftfest"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'eu.davidea:flexible-adapter:5.0.1'
     implementation 'eu.davidea:flexible-adapter-ui:1.0.0-b3'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     //noinspection GradleDependency
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'

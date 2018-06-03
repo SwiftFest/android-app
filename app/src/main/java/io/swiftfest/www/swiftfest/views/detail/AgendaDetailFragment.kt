@@ -56,9 +56,15 @@ class AgendaDetailFragment : Fragment() {
         return inflater.inflate(R.layout.agenda_detail_fragment, container, false)
     }
 
+    private lateinit var scheduleRowString: String
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val scheduleRowString = arguments!!.getString(Constants.SCHEDULE_ITEM_ROW)
+        if (savedInstanceState != null) {
+            scheduleRowString = savedInstanceState.getString("session")
+        } else {
+            scheduleRowString = arguments!!.getString(Constants.SCHEDULE_ITEM_ROW)
+        }
         scheduleRowItem = gson.fromJson(scheduleRowString, ScheduleRow::class.java)
         fetchAgendaDetailData()
         populateView()
@@ -66,7 +72,13 @@ class AgendaDetailFragment : Fragment() {
         if (activity is MainActivity) {
             val mainActivity = activity as MainActivity
             mainActivity.uncheckAllMenuItems()
+            mainActivity.setLastFragmentSelectedTitle(getString(R.string.str_agenda_detail))
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("session", scheduleRowString)
     }
 
     private fun populateView() {

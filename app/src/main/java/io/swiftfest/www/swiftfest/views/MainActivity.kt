@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.main_activity.toolbar
 class MainActivity : AppCompatActivity() {
 
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
+    private lateinit var lastFragmentSelectedTitle: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +35,17 @@ class MainActivity : AppCompatActivity() {
 
         initNavDrawerToggle()
 
-        replaceFragment(getString(R.string.str_agenda))
+        if (savedInstanceState != null) {
+            setLastFragmentSelectedTitle(savedInstanceState.getString("lastFragment"))
+            if (lastFragmentSelectedTitle != getString(R.string.str_agenda_detail)) {
+                replaceFragment(lastFragmentSelectedTitle)
+            }
+        } else {
+            setLastFragmentSelectedTitle(getString(R.string.str_agenda))
+            replaceFragment(lastFragmentSelectedTitle)
+        }
+
+
 
         val sessionDetails = intent.extras?.getString(EXTRA_SESSION_DETAILS)
         if (!TextUtils.isEmpty(sessionDetails)) {
@@ -45,6 +56,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun setLastFragmentSelectedTitle(title: String) {
+        lastFragmentSelectedTitle = title
+    }
+
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        savedInstanceState.putString("lastFragment", lastFragmentSelectedTitle);
+    }
 
     override fun onBackPressed() {
         // If drawer is open
@@ -142,6 +161,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_about -> replaceFragment(getString(R.string.str_about_us))
                 R.id.nav_speakers -> replaceFragment(getString(R.string.str_speakers))
                 R.id.nav_volunteers -> replaceFragment(getString(R.string.str_volunteers))
+                else -> {
+                    replaceFragment(getString(R.string.str_agenda))
+                }
             }
 
             navView.setCheckedItem(item.itemId)
@@ -181,8 +203,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         checkNavMenuItem(title)
-
         updateToolbarTitle(title)
+        lastFragmentSelectedTitle = title
 
         // Get the fragment by tag
         var fragment: Fragment? = supportFragmentManager.findFragmentByTag(title)
