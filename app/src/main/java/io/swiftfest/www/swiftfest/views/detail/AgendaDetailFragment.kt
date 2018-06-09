@@ -179,7 +179,7 @@ class AgendaDetailFragment : Fragment() {
                 Glide.with(this)
                         .load(itemData.photoUrlMap[speakerName])
                         .transform(CircleTransform(tempImg.context))
-                        .placeholder(R.drawable.emo_im_cool)
+                        .placeholder(R.drawable.icon_circle)
                         .crossFade()
                         .into(tempImg)
 

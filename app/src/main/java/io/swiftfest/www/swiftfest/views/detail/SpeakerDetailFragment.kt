@@ -75,7 +75,7 @@ class SpeakerDetailFragment : Fragment() {
         Glide.with(activity)
                 .load(itemData.getFullThumbnailUrl())
                 .transform(CircleTransform(imgv_speaker_detail_avatar.context))
-                .placeholder(R.drawable.emo_im_cool)
+                .placeholder(R.drawable.icon_circle)
                 .crossFade()
                 .into(imgv_speaker_detail_avatar)
 

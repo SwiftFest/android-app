@@ -93,7 +93,7 @@ class ScheduleAdapterItem internal constructor(val itemData: ScheduleRow,
 
             Glide.with(context).load(itemData.photoUrlMap[itemData.primarySpeakerName])
                     .transform(CircleTransform(context))
-                    .placeholder(R.drawable.emo_im_cool)
+                    .placeholder(R.drawable.icon_circle)
                     .crossFade()
                     .into(holder.avatar)
 

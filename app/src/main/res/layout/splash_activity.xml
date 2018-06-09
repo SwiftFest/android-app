@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/colorAccent"
+    android:gravity="center"
+    android:orientation="vertical">
 
-        <ImageView
-                android:id="@+id/logo_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxWidth="600dp"
-                android:adjustViewBounds="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:contentDescription="@string/app_name"
-                android:padding="75dp"
-                android:src="@drawable/logo_text"/>
+    <ImageView
+        android:id="@+id/logo_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:maxWidth="600dp"
+        android:padding="75dp"
+        android:src="@drawable/logo_text" />
 
-        <com.github.ybq.android.spinkit.SpinKitView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/spin_kit"
-                style="@style/SpinKitView.Wave"
-                android:visibility="invisible"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:SpinKit_Color="@color/colorAccent"/>
+    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/spin_kit"
+        style="@style/SpinKitView.Wave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:SpinKit_Color="@color/white" />
 </LinearLayout>

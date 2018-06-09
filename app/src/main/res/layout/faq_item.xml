@@ -1,30 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/root_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
     android:paddingBottom="8dp"
     android:paddingLeft="16dp"
+    android:background="@color/colorGray"
     android:paddingRight="16dp"
-    android:orientation="vertical"
+    android:paddingTop="4dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="false"
     tools:ignore="UseCompoundDrawables">
 
-    <TextView android:id="@+id/faq_text"
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/root_layout"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/faq_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="17sp"
         android:fontFamily="sans-serif-light"
         android:textColor="@color/colorPrimaryDark"
-        tools:text="Answer to your question"/>
+        android:textSize="17sp"
+        android:textStyle="bold"
+        tools:text="Answer to your question" />
 
     <ImageView
         android:id="@+id/faq_photo"
-        android:contentDescription="@string/hint_faq_photo"
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:layout_marginTop="8dp"
-        tools:src="@drawable/logo_text"/>
-</LinearLayout>
+        android:contentDescription="@string/hint_faq_photo"
+        tools:src="@drawable/logo_text" />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

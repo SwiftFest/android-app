@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_faq -> replaceFragment(getString(R.string.str_faq))
                 R.id.nav_social -> replaceFragment(getString(R.string.str_social))
                 R.id.nav_coc -> replaceFragment(getString(R.string.str_coc))
-                R.id.nav_about -> replaceFragment(getString(R.string.str_about_us))
+//                R.id.nav_about -> replaceFragment(getString(R.string.str_about_us))
                 R.id.nav_speakers -> replaceFragment(getString(R.string.str_speakers))
                 R.id.nav_volunteers -> replaceFragment(getString(R.string.str_volunteers))
                 else -> {

@@ -17,4 +17,5 @@
     <!-- Dynamic speaker imageview in agenda details. -->
     <dimen name="imgv_speaker_size">80dp</dimen>
     <dimen name="imgv_speaker_offset">65dp</dimen>
+    <dimen name="speaker_detail_font">18sp</dimen>
 </resources>

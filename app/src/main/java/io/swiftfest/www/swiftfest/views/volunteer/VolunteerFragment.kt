@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
@@ -46,7 +47,7 @@ class VolunteerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
         volunteerAdapter.expandItemsAtStartUp().setDisplayHeadersAtStartUp(false)
     }
 
-    override fun onItemClick(view: View, position: Int): Boolean {
+    override fun onItemClick(itemView: View, position: Int): Boolean {
         val item = volunteerAdapter.getItem(position) as VolunteerAdapterItem
         val volunteer = item.itemData
         val bodyText = StringBuilder()
@@ -66,14 +67,23 @@ class VolunteerFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
 
         val context = activity as Context
 
-        MaterialDialog.Builder(context)
-                .title("Volunteer: ${volunteer.name} ${volunteer.surname}")
-                .content(bodyText.toString())
+
+        val dialog = MaterialDialog.Builder(context)
+                .customView(R.layout.volunteer_dialog_layout, true)
                 .positiveText("Ok")
                 .onPositive { dialog, which ->
                     dialog.dismiss()
                 }
                 .show()
+
+        val titleHeaderText = "Volunteer: ${volunteer.name} ${volunteer.surname}"
+
+        val view = dialog.getCustomView()
+        if (view != null) {
+            view.findViewById<TextView>(R.id.title).text = titleHeaderText
+            view.findViewById<TextView>(R.id.body).text = bodyText.toString()
+        }
+
         return true
     }
 

@@ -110,6 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/imgv_header_bg"
             android:layout_marginTop="25dp"
+            android:textSize="@dimen/speaker_detail_font"
             android:fontFamily="sans-serif"
             android:paddingBottom="@dimen/def_padding"
             android:paddingLeft="@dimen/def_padding_large"

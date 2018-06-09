@@ -13,6 +13,9 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractSectionableItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
+
 
 /**
  * Used for displaying the FAQ items
@@ -46,7 +49,10 @@ class FaqAdapterItem internal constructor(val itemData: Answer,
                                 position: Int,
                                 payloads: MutableList<Any>) {
 
-        holder.faq_text.text = itemData.answer
+        val content = SpannableString(itemData.answer)
+        content.setSpan(UnderlineSpan(), 0, itemData.answer.length, 0)
+        holder.faq_text.text = content
+
         if (!TextUtils.isEmpty(itemData.photoLink)) {
             val context = holder.faq_text.context
             Glide.with(context)

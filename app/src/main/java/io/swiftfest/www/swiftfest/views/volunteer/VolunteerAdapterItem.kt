@@ -40,7 +40,7 @@ class VolunteerAdapterItem internal constructor(val itemData: Volunteer) :
         Glide.with(context)
                 .load(itemData.getFullThumbnailUrl())
                 .transform(CircleTransform(context))
-                .placeholder(R.drawable.emo_im_cool)
+                .placeholder(R.drawable.icon_circle)
                 .crossFade()
                 .into(holder.avatar)
     }
