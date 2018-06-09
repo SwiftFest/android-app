@@ -43,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_above="@+id/tv_agenda_detail_time"
             android:layout_alignParentStart="true"
             android:fontFamily="sans-serif"
             android:paddingEnd="16dp"
