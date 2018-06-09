@@ -11,17 +11,40 @@
         android:textSize="18sp"
         android:text="@string/app_name"
         android:layout_gravity="center"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-
 
     <TextView
-        android:id="@+id/body"
-        android:textSize="14sp"
-        android:padding="20dp"
+        android:text="volunteer"
+        android:id="@+id/subTitle"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_margin="10dp"
+        android:background="#FF000000" />
+
+    <LinearLayout
+        android:id="@+id/socialLayout"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/body"
+            android:textSize="14sp"
+            android:padding="20dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
 
 
 
