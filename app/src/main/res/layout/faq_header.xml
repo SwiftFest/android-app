@@ -10,7 +10,7 @@
     android:paddingRight="16dp"
     android:fontFamily="sans-serif"
     android:textSize="20sp"
-    android:textColor="@color/white"
+    android:textColor="@color/black"
     android:textStyle="bold"
     tools:text="Why is the world round?" />
     <!--android:textColor="@color/colorGray"-->
