@@ -6,7 +6,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "io.swiftfest.www.swiftfest"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 6
         versionName "1.1.4"
@@ -54,12 +54,12 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
 //    implementation 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
-    implementation 'com.github.kittinunf.fuel:fuel-android:1.12.1'
-    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+    implementation 'com.github.kittinunf.fuel:fuel-android:2.1.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.2.0'
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2"
 }
 
