@@ -36,7 +36,7 @@ class AgendaFragment : Fragment() {
             // set current day to second if today matches
             val today = Calendar.getInstance()
             val dayTwo = Calendar.getInstance()
-            dayTwo.set(2018, Calendar.MARCH, 27)
+            dayTwo.set(2019, Calendar.JULY, 30)
             if (today == dayTwo) {
                 viewpager.currentItem = 1
             }
