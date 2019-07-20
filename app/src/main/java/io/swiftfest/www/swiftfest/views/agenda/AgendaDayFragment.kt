@@ -105,8 +105,10 @@ class AgendaDayFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
             schedule = dataProvider.schedules.find { it.date.contains(dayFilter) }
         }
 
-        // Schedule must be non-null
-        setupHeaderAdapter(schedule!!)
+        // Schedule must be non-null, but it can so I added a safe check
+        schedule?.let {
+            setupHeaderAdapter(it)
+        }
     }
 
     private fun setupHeaderAdapter(schedule: Schedule) {
