@@ -8,7 +8,7 @@ class Constants {
 
     companion object {
         var SCHEDULE_ITEM_ROW = "schedule_item_row"
-        var MONDAY = "2018-06-18"
-        var TUESDAY = "2018-06-19"
+        var MONDAY = "2019-07-29"
+        var TUESDAY = "2019-07-30"
     }
 }

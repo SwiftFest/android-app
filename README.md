@@ -4,7 +4,7 @@
 <h1>Swiftfest Boston</h1>
 
 
-Android conference app for the Swiftfest conference to be hosted in Boston June 18-19 2018.
+Android conference app for the Swiftfest conference to be hosted in Boston July 29-30 2019.
 
 See the website here: <a href="http://swiftfest.io" target="_blank">http://swiftfest.io</a>
 

@@ -1,6 +1,5 @@
 package io.swiftfest.www.swiftfest.data
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.os.Handler
 import android.util.Log.e
@@ -16,11 +15,10 @@ import io.swiftfest.www.swiftfest.MyApplication.Companion.SPEAKER_URL
 import io.swiftfest.www.swiftfest.MyApplication.Companion.VOLUNTEER_URL
 import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.data.model.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
+import kotlinx.coroutines.*
 
 class DataProvider private constructor() {
 
@@ -185,11 +183,11 @@ class DataProvider private constructor() {
         handler.postDelayed({
             Toast.makeText(context, "Having trouble connecting", Toast.LENGTH_LONG).show()
         }, 10000)
-        val sessionTask = async { instance.loadSessions(context) }
-        val scheduleTask = async { instance.loadSchedules(context) }
-        val speakerTask = async { instance.loadSpeakers(context) }
-        val volunteerTask = async { instance.loadVolunteers(context) }
-        val faqTask = async { instance.loadFaqs(context) }
+        val sessionTask = GlobalScope.async { instance.loadSessions(context) }
+        val scheduleTask = GlobalScope.async { instance.loadSchedules(context) }
+        val speakerTask = GlobalScope.async { instance.loadSpeakers(context) }
+        val volunteerTask = GlobalScope.async { instance.loadVolunteers(context) }
+        val faqTask = GlobalScope.async { instance.loadFaqs(context) }
         sessionTask.await()
         scheduleTask.await()
         speakerTask.await()
@@ -215,8 +213,9 @@ fun <K, V> Map<K, V>.getOrRefetchData(context: Context, key: K): V? {
             .content(R.string.fetching_data)
             .progressIndeterminateStyle(true)
             .progress(true, 0)
-            .show();
-    launch(CommonPool) {
+            .show()
+
+    GlobalScope.launch(Dispatchers.Default) {
         val start = System.currentTimeMillis()
         DataProvider.instance.fetchAppData(context)
         // Make sure dialog shows for at least 1.5s.
@@ -224,7 +223,7 @@ fun <K, V> Map<K, V>.getOrRefetchData(context: Context, key: K): V? {
         if (needed > 0) {
             Thread.sleep(needed)
         }
-        launch(UI) {
+        launch(Dispatchers.Main) {
             pDialog.dismiss()
         }
     }

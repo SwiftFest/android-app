@@ -11,9 +11,9 @@ import android.view.animation.Animation.AnimationListener
 import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.data.DataProvider
 import kotlinx.android.synthetic.main.splash_activity.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class SplashActivity : AppCompatActivity() {
@@ -24,9 +24,9 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_activity)
         spin_kit.visibility = View.VISIBLE
-        launch(CommonPool) {
+        GlobalScope.launch(Dispatchers.Default) {
             dataProvider.fetchAppData(application)
-            launch(UI) {
+            launch(Dispatchers.Main) {
                 fadeImage()
             }
         }

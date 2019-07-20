@@ -30,7 +30,7 @@ data class ScheduleRow(
 ) {
 
     companion object {
-        val ISO_LENGTH = "2018-06-18T11:00:00".length
+        val ISO_LENGTH = "2019-07-29T11:00:00".length
 
         @JvmStatic
         fun getReadableTime(timeString: String): String {
