@@ -40,7 +40,7 @@
         android:layout_height="125dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/hint_faq_photo"
-        tools:src="@drawable/logo_text" />
+        tools:src="@drawable/swiftfest_profile_logo" />
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

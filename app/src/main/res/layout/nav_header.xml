@@ -14,10 +14,9 @@
     <ImageView
         android:layout_width="wrap_content"
         android:scaleType="centerInside"
-        android:paddingStart="50dp"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:src="@drawable/logo_text"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/swiftfest_profile_logo"
         android:contentDescription="Logo" />
 
 </FrameLayout>
