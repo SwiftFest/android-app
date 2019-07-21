@@ -25,7 +25,7 @@
             android:paddingEnd="50dp"
             android:paddingStart="50dp"
             android:scaleType="centerInside"
-            android:src="@drawable/logo_text" />
+            android:src="@drawable/swiftfest_profile_logo" />
 
     </RelativeLayout>
 

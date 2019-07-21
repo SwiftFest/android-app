@@ -17,7 +17,7 @@
         android:focusableInTouchMode="true"
         android:maxWidth="600dp"
         android:padding="75dp"
-        android:src="@drawable/logo_text" />
+        android:src="@drawable/swiftfest_profile_logo" />
 
     <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/spin_kit"
