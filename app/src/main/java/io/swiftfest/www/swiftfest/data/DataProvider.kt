@@ -182,7 +182,6 @@ class DataProvider private constructor() {
             val now = LocalDateTime.now()
             scheduleRow.isOver = now.isAfter(scheduleRow.getEndDate())
         }
-
 //        scheduleRow.trackSortOrder // TODO: assign
         return scheduleRow
     }
