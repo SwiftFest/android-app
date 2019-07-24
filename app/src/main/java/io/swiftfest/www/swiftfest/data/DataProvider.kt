@@ -15,6 +15,7 @@ import io.swiftfest.www.swiftfest.MyApplication.Companion.SPEAKER_URL
 import io.swiftfest.www.swiftfest.MyApplication.Companion.VOLUNTEER_URL
 import io.swiftfest.www.swiftfest.R
 import io.swiftfest.www.swiftfest.data.model.*
+import io.swiftfest.www.swiftfest.utils.isNullorEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
@@ -108,6 +109,8 @@ class DataProvider private constructor() {
             e("parseSessions", err.toString())
             sessions = Gson().fromJson<List<Session>>(loadResourceFile(context, R.raw.sessions), sessionListType)
         }
+
+        sessions = sessions.filter { !it.title.isNullorEmpty() && it.title.isNotBlank() }
         setupSessionMap()
     }
 
@@ -146,35 +149,39 @@ class DataProvider private constructor() {
     }
 
     fun toScheduleRow(timeSlot: Timeslot, sessionId: Int, sessionDate: String): ScheduleRow {
-        val session = sessionMap.get(sessionId)!!
+        
+        val session = sessionMap[sessionId]
         val scheduleRow = ScheduleRow(primarySpeakerId = 0)
-        scheduleRow.subtype = session.subtype
-        scheduleRow.startTime = timeSlot.startTime
-        scheduleRow.endTime = timeSlot.endTime
-        // Assume that the speaker exists (error if not).
-        val sessionSpeakers: List<Speaker>
-        if (session.speakers != null && session.speakers.isNotEmpty()) {
 
-            sessionSpeakers = session.speakers.map { speakerMap[it] ?: error("No speaker for this slot") }
-            scheduleRow.speakerCount = sessionSpeakers.size
-            scheduleRow.speakerIds = sessionSpeakers.map { it.id }
-            scheduleRow.speakerNames = sessionSpeakers.map { it.fullName }
-            scheduleRow.primarySpeakerName = scheduleRow.speakerNames[0]
-            scheduleRow.primarySpeakerId = scheduleRow.speakerIds[0]
-            scheduleRow.photoUrlMap = sessionSpeakers.map { it.fullName to it.getFullThumbnailUrl() }.toMap()
-            scheduleRow.speakerNameToOrgName = sessionSpeakers.map { it.fullName to it.company }.toMap()
+        session?.let {
+            scheduleRow.subtype = session.subtype
+            scheduleRow.startTime = timeSlot.startTime
+            scheduleRow.endTime = timeSlot.endTime
+            // Assume that the speaker exists (error if not).
+            val sessionSpeakers: List<Speaker>
+            if (session.speakers != null && session.speakers.isNotEmpty()) {
+
+                sessionSpeakers = session.speakers.map { speakerMap[it] ?: error("No speaker for this slot") }
+                scheduleRow.speakerCount = sessionSpeakers.size
+                scheduleRow.speakerIds = sessionSpeakers.map { it.id }
+                scheduleRow.speakerNames = sessionSpeakers.map { it.fullName }
+                scheduleRow.primarySpeakerName = scheduleRow.speakerNames[0]
+                scheduleRow.primarySpeakerId = scheduleRow.speakerIds[0]
+                scheduleRow.photoUrlMap = sessionSpeakers.map { it.fullName to it.getFullThumbnailUrl() }.toMap()
+                scheduleRow.speakerNameToOrgName = sessionSpeakers.map { it.fullName to it.company }.toMap()
+            }
+            scheduleRow.date = sessionDate
+            if (session.place.isNullOrBlank()) {
+                scheduleRow.room = "Location TBD"
+            } else {
+                scheduleRow.room = session.place!!
+            }
+            scheduleRow.id = sessionId.toString()
+            scheduleRow.talkDescription = session.description ?: "No description."
+            scheduleRow.talkTitle = session.title
+            val now = LocalDateTime.now()
+            scheduleRow.isOver = now.isAfter(scheduleRow.getEndDate())
         }
-        scheduleRow.date = sessionDate
-        if (session.place.isNullOrBlank()) {
-            scheduleRow.room = "Location TBD"
-        } else {
-            scheduleRow.room = session.place!!
-        }
-        scheduleRow.id = sessionId.toString()
-        scheduleRow.talkDescription = session.description ?: "No description."
-        scheduleRow.talkTitle = session.title
-        val now = LocalDateTime.now()
-        scheduleRow.isOver = now.isAfter(scheduleRow.getEndDate())
 //        scheduleRow.trackSortOrder // TODO: assign
         return scheduleRow
     }
