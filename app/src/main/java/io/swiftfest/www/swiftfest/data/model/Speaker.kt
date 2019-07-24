@@ -23,6 +23,11 @@ data class Speaker(
             return mapOf()
         }
 
+    val fullName: String
+        get() {
+            return "$name $surname"
+        }
+
     companion object {
         var SPEAKER_ITEM_ROW = "speaker_item_row"
     }

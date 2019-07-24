@@ -68,7 +68,7 @@ class ScheduleAdapterItem internal constructor(val itemData: ScheduleRow,
             holder.title.text = itemData.talkTitle
             holder.room.text = itemData.room
 
-            if (itemData.photoUrlMap.size == 0) {
+            if (itemData.photoUrlMap.isEmpty()) {
                 holder.rootLayout.background = null
             } else {
                 addBackgroundRipple(holder)

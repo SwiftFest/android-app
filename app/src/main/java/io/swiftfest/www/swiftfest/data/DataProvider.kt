@@ -154,14 +154,15 @@ class DataProvider private constructor() {
         // Assume that the speaker exists (error if not).
         val sessionSpeakers: List<Speaker>
         if (session.speakers != null && session.speakers.isNotEmpty()) {
-            sessionSpeakers = session.speakers.map { speakerMap.get(it)!! }
+
+            sessionSpeakers = session.speakers.map { speakerMap[it] ?: error("No speaker for this slot") }
             scheduleRow.speakerCount = sessionSpeakers.size
             scheduleRow.speakerIds = sessionSpeakers.map { it.id }
-            scheduleRow.speakerNames = sessionSpeakers.map { it.name }
-            scheduleRow.primarySpeakerName = scheduleRow.speakerNames.get(0)
-            scheduleRow.primarySpeakerId = scheduleRow.speakerIds.get(0)
-            scheduleRow.photoUrlMap = sessionSpeakers.map { it.name to it.getFullThumbnailUrl() }.toMap()
-            scheduleRow.speakerNameToOrgName = sessionSpeakers.map { it.name to it.company }.toMap()
+            scheduleRow.speakerNames = sessionSpeakers.map { it.fullName }
+            scheduleRow.primarySpeakerName = scheduleRow.speakerNames[0]
+            scheduleRow.primarySpeakerId = scheduleRow.speakerIds[0]
+            scheduleRow.photoUrlMap = sessionSpeakers.map { it.fullName to it.getFullThumbnailUrl() }.toMap()
+            scheduleRow.speakerNameToOrgName = sessionSpeakers.map { it.fullName to it.company }.toMap()
         }
         scheduleRow.date = sessionDate
         if (session.place.isNullOrBlank()) {
