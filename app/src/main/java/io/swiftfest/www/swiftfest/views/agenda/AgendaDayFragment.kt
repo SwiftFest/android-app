@@ -123,9 +123,11 @@ class AgendaDayFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
                 }
 
                 if (!onlyMyAgenda || onlyMyAgenda && userAgendaRepo.isSessionBookmarked(sessionId.toString())) {
+
                     val scheduleRow = dataProvider.toScheduleRow(timeSlot, sessionId, schedule.date)
                     val item = ScheduleAdapterItem(scheduleRow, header)
-                    items.add(item)
+
+                    if(item.itemData.talkTitle.isNotEmpty()) items.add(item)
                 }
             }
         }

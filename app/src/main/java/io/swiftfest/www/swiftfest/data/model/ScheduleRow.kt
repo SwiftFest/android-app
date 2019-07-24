@@ -1,11 +1,8 @@
 package io.swiftfest.www.swiftfest.data.model
 
-import android.util.Log
 import io.swiftfest.www.swiftfest.R
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 data class ScheduleRow(
