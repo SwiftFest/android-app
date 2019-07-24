@@ -26,6 +26,7 @@ import io.swiftfest.www.swiftfest.data.getOrRefetchData
 import io.swiftfest.www.swiftfest.utils.NotificationUtils
 import io.swiftfest.www.swiftfest.utils.ServiceLocator.Companion.gson
 import io.swiftfest.www.swiftfest.utils.getHtmlFormattedSpanned
+import io.swiftfest.www.swiftfest.utils.preferredMargin
 import io.swiftfest.www.swiftfest.views.MainActivity
 import io.swiftfest.www.swiftfest.views.transform.CircleTransform
 import kotlinx.android.synthetic.main.agenda_detail_fragment.agendaDetailView
@@ -60,11 +61,12 @@ class AgendaDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (savedInstanceState != null) {
-            scheduleRowString = savedInstanceState.getString("session")
+        scheduleRowString = if (savedInstanceState != null) {
+            savedInstanceState.getString("session")
         } else {
-            scheduleRowString = arguments!!.getString(Constants.SCHEDULE_ITEM_ROW)
-        }
+            arguments!!.getString(Constants.SCHEDULE_ITEM_ROW)
+        } ?: ""
+
         scheduleRowItem = gson.fromJson(scheduleRowString, ScheduleRow::class.java)
         fetchAgendaDetailData()
         populateView()
@@ -87,7 +89,7 @@ class AgendaDetailFragment : Fragment() {
         tv_agenda_detail_time.text = resources.getString(R.string.str_agenda_detail_time, scheduleRowItem.getReadableStartTime(), scheduleRowItem.getReadableEndTime())
         tv_agenda_detail_time.setTextColor(resources.getColor(R.color.white))
 
-        fab_agenda_detail_bookmark.setOnClickListener({
+        fab_agenda_detail_bookmark.setOnClickListener {
 
             val nextBookmarkStatus = !userAgendaRepo.isSessionBookmarked(scheduleDetail.id)
             userAgendaRepo.bookmarkSession(scheduleDetail.id, nextBookmarkStatus)
@@ -105,7 +107,7 @@ class AgendaDetailFragment : Fragment() {
                     Snackbar.LENGTH_SHORT).show()
 
             showBookmarkStatus(scheduleDetail)
-        })
+        }
 
         populateSpeakersInformation(scheduleRowItem)
     }
@@ -116,9 +118,9 @@ class AgendaDetailFragment : Fragment() {
                 activity as Context, scheduleRowItem.primarySpeakerId) ?: return
 
         scheduleDetail.speakerBio = primarySpeaker.bio ?: ""
-        scheduleDetail.facebook = primarySpeaker.socialProfiles.get("facebook") ?: ""
-        scheduleDetail.linkedIn = primarySpeaker.socialProfiles.get("linkedin") ?: ""
-        scheduleDetail.twitter = primarySpeaker.socialProfiles.get("twitter") ?: ""
+        scheduleDetail.facebook = primarySpeaker.socialProfiles["facebook"] ?: ""
+        scheduleDetail.linkedIn = primarySpeaker.socialProfiles["linkedin"] ?: ""
+        scheduleDetail.twitter = primarySpeaker.socialProfiles["twitter"] ?: ""
         showAgendaDetail(scheduleDetail)
     }
 
@@ -131,6 +133,7 @@ class AgendaDetailFragment : Fragment() {
             var speakerNames = ""
             val imgViewSize = resources.getDimension(R.dimen.imgv_speaker_size).toInt()
             var marginValue = resources.getDimension(R.dimen.def_margin).toInt()
+            var topMarginValue = preferredMargin(activity!!.windowManager, resources)
             val offsetImgView = resources.getDimension(R.dimen.imgv_speaker_offset).toInt()
             val defaultLeftMargin = resources.getDimension(R.dimen.def_margin).toInt()
 
@@ -162,11 +165,13 @@ class AgendaDetailFragment : Fragment() {
                 // Add an imageview to the relative layout
                 val tempImg = ImageView(activity)
                 val lp = RelativeLayout.LayoutParams(imgViewSize, imgViewSize)
+               // lp.addRule(RelativeLayout.ALIGN_BOTTOM, tv_agenda_detail_room.id)
+
                 if (speakerName == itemData.speakerNames.first()) {
-                    lp.setMargins(marginValue, 0, 0, defaultLeftMargin)
+                    lp.setMargins(marginValue, 0, 0, topMarginValue)
                 } else {
                     marginValue += offsetImgView
-                    lp.setMargins(marginValue, 0, 0, defaultLeftMargin)
+                    lp.setMargins(marginValue, 0, 0, topMarginValue)
                 }
 
                 // add the imageview above the textview for room data
