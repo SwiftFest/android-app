@@ -10,7 +10,10 @@
     <dimen name="imge_book_detail">80dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="high_margin">18dp</dimen>
     <dimen name="def_margin">16dp</dimen>
+    <dimen name="medium_margin">12dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
     <dimen name="def_padding">8dp</dimen>
     <dimen name="def_padding_large">16dp</dimen>
 
