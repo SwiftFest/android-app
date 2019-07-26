@@ -16,7 +16,7 @@
       },
       {
         "answer": "The Official Event Hashtag #SwiftFest",
-        "otherLink": "https://twitter.com/search?f=tweets&q=%SwiftFest"
+        "otherLink": "https://twitter.com/hashtag/SwiftFest"
       }
     ],
     "question": "Where do I find up-to date information?"
@@ -82,7 +82,7 @@
         "mapLink": "geo:0,0?q=42.3493982,-71.0805612(Copley)"
       },
       {
-        "answer": "Boston's Chinatown. We got a gate. We got diem-sum.",
+        "answer": "Boston's Chinatown. We got a gate. We got dim-sum.",
         "mapLink": "geo:0,0?q=42.3497511,-71.0673111(Chinatown)",
         "photoLink": "https://lh5.googleusercontent.com/-qr2kPGcTDQY/V66VcH4f-6I/AAAAAAAAX5Q/FJOkwx9dok0ozEwtAKOGFA2EpheNW8j5QCJkC/w408-h272-k-no/"
       },
@@ -156,12 +156,6 @@
         "answer": "Banyan. Asian fusion. Next-door. \n553 Tremont St, Boston, MA 02116",
         "mapLink": "geo:0,0?q=42.3444073,-71.074159(Banyan)",
         "otherLink": "https://www.banyanboston.com"
-      },
-      {
-        "answer": "Liquid Art House. Music - Art gallery - Lounge - Restaurant. \n100 Arlington St, Boston, MA 02116",
-        "mapLink": "geo:0,0?q=42.3499103,-71.0716557(L.A.H.)",
-        "otherLink": "https://www.liquidarthouse.com/",
-        "photoLink": "https://lh6.googleusercontent.com/-7qSpCdDUUqo/VDyjV0cvsHI/AAAAAAAAABo/Q3QTZoZgsvg4H7K8D1ZZAyz4w3UIRoaJACJkC/w408-h408-k-no/"
       }
     ],
     "question": "Lunch was awesome but I'm still hungry or need dinner options?"
@@ -190,7 +184,7 @@
       {
         "answer": "Star Market - Note is open 24/7. \n53 Huntington Ave, Boston, MA 02199",
         "mapLink": "geo:0,0?q=42.3478432,-71.0816315(Star)",
-        "otherLink": "http://www.starmarket.com/pd/stores/MA/Boston/Star-Market-Boston-MA-53-Huntington-Ave-/686F125767"
+        "otherLink": "http://www.starmarket.com"
       }
     ],
     "question": "Markets"
@@ -210,7 +204,7 @@
         "photoLink": "https://lh5.googleusercontent.com/proxy/GEFnNNCA2KHSoqMgubTw_tuRa-3h_hkcuHPZnSlsOWvZlra6eLRvx8v7nRepy-aZVV-kXfMqB3RuIlLW_YhwXQ1VWDyk5wgSqRmCYwVGyqZK2n8f1-8mnOqEs5ZPnazoMT8HzAt1fFYacLpRXO8MRVcpsOZoPA=w408-h306-k-no"
       }
     ],
-    "question": "My Air BNB fell through. What now?"
+    "question": "My Airbnb fell through. What now?"
   },
   {
     "answers": [
