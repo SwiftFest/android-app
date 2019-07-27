@@ -222,7 +222,7 @@ class MainActivity : AppCompatActivity() {
                 resources.getString(R.string.str_volunteers) -> fragment = VolunteerFragment()
             }
             // Add fragment with tag
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, title).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment!!, title).commit()
         } else {
 
             // For Agenda and My Schedule Screen, which add more fragments to backstack.
@@ -236,7 +236,7 @@ class MainActivity : AppCompatActivity() {
 
             supportFragmentManager.beginTransaction()
                     // detach the fragment that is currently visible
-                    .detach(supportFragmentManager.findFragmentById(R.id.fragment_container))
+                    .detach(supportFragmentManager.findFragmentById(R.id.fragment_container)!!)
                     // attach the fragment found as per the tag
                     .attach(fragment)
                     // commit fragment transaction

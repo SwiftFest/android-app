@@ -95,7 +95,7 @@ class AgendaDayFragment : Fragment(), FlexibleAdapter.OnItemClickListener {
     }
 
     fun updateList() {
-        agendaRecyler.adapter.notifyDataSetChanged()
+        agendaRecyler.adapter?.notifyDataSetChanged()
     }
 
     private fun fetchScheduleData() {

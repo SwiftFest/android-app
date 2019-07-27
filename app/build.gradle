@@ -3,11 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "io.swiftfest.www.swiftfest"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 7
         versionName "1.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -28,7 +28,7 @@ kotlin {
 }
 
 dependencies {
-    final support = "27.1.1"
+    final support = "28.0.0"
     final playServices = "11.8.0"
     final junit = "4.12"
 
@@ -45,7 +45,7 @@ dependencies {
     implementation "com.android.support:customtabs:$support"
 
     // Misc
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'eu.davidea:flexible-adapter:5.0.1'
     implementation 'eu.davidea:flexible-adapter-ui:1.0.0-b3'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'

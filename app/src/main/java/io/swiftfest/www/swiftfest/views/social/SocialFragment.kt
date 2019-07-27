@@ -2,14 +2,13 @@ package io.swiftfest.www.swiftfest.views.social
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.swiftfest.www.swiftfest.R
-import io.swiftfest.www.swiftfest.R.string
 import io.swiftfest.www.swiftfest.modal.SocialModal
-import io.swiftfest.www.swiftfest.utils.DividerItemDecoration
 import io.swiftfest.www.swiftfest.utils.RVItemClickListener
 import io.swiftfest.www.swiftfest.utils.RVItemClickListener.OnItemClickListener
 import io.swiftfest.www.swiftfest.utils.loadUriInCustomTab
