@@ -12,7 +12,7 @@ data class Speaker(
         val social: List<Social>?) {
 
     fun getFullThumbnailUrl(): String {
-        return "http://swiftfest.io/img/people/${thumbnailUrl}"
+        return "https://swiftfest.io/img/people/${thumbnailUrl}"
     }
 
     val socialProfiles: Map<String, String>

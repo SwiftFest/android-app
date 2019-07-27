@@ -14,9 +14,9 @@ class MyApplication : Application() {
     }
 
     companion object {
-        val SPEAKER_URL = "http://swiftfest.io/speakers.json"
-        val SCHEDULE_URL = "http://swiftfest.io/schedule.json"
-        val SESSION_URL = "http://swiftfest.io/sessions.json"
-        val VOLUNTEER_URL = "http://swiftfest.io/team.json"
+        val SPEAKER_URL = "https://swiftfest.io/speakers.json"
+        val SCHEDULE_URL = "https://swiftfest.io/schedule.json"
+        val SESSION_URL = "https://swiftfest.io/sessions.json"
+        val VOLUNTEER_URL = "https://swiftfest.io/team.json"
     }
 }
