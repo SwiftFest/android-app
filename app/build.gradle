@@ -8,7 +8,7 @@ android {
         applicationId "io.swiftfest.www.swiftfest"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 7
+        versionCode 8
         versionName "1.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
